@@ -1,4 +1,5 @@
 import { InjectedConnector, StarknetProvider } from "@starknet-react/core";
+import { GameProvider } from "src/hooks/useGameState";
 import { Provider } from "starknet";
 
 import UserConnect from "./UserConnect";
@@ -9,7 +10,9 @@ export default function App() {
 
   return (
     <StarknetProvider connectors={connectors} defaultProvider={defaultProvider} autoConnect>
-      <UserConnect />
+      <GameProvider>
+        <UserConnect />
+      </GameProvider>
     </StarknetProvider>
   );
 }
