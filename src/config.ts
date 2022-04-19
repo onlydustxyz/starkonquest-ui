@@ -1,0 +1,8 @@
+const config = {
+  RAND_ADDRESS: "0x042d1cc0e94f17b2baed94e9095d0c2b7ef0a40db2423eb38f3c9ffacb88ab90",
+  SPACE_ADDRESS: "0x04029183d885941eab5f191a6fedffc3e9108ce246cbb922c0e50867260d3a0f",
+  DUST_ADDRESS: "0x00a4e56572bd0624a6129ee355c8e7726c8bbb0e944bee45ed3ee0ba0f8265b3",
+  SHIP_ADDRESS: "0x03b6e9ff017b3ce7aa41bad94c37f638ed4710f2a74c01d8fd1e32bd9c8f4f10",
+};
+
+export default config;
