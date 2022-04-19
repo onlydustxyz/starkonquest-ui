@@ -1,18 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
 import { usePrevious } from "react-use";
 import cn from "classnames";
+import * as Popover from "@radix-ui/react-popover";
 
 import { ShipData } from "src/hooks/useGrid";
 import ships from "src/assets/img/spaceships";
 
 import styles from "./Ship.module.css";
+import BN from "bn.js";
 
 export interface ShipProps {
   boxSize: number;
   shipData: ShipData;
+  x: BN;
+  y: BN;
 }
 
-export default function Ship({ boxSize, shipData }: ShipProps) {
+export default function Ship({ boxSize, shipData, x, y }: ShipProps) {
   const previousPosition = usePrevious({ x: shipData.position.x, y: shipData.position.y });
   const [angle, setAngle] = useState(0);
 
@@ -48,11 +52,28 @@ export default function Ship({ boxSize, shipData }: ShipProps) {
   }, [angle, boxSize, shipData.position.x, shipData.position.y]);
 
   return (
-    <div
-      style={containerStyle}
-      className={cn("absolute flex items-center justify-center transition-all duration-700 ease-in-out", styles.ship)}
-    >
-      <img src={shipImage} width={`${boxSize}px`} height={`${boxSize}px`} />
-    </div>
+    <Popover.Root>
+      <Popover.Trigger>
+        <div
+          style={containerStyle}
+          className={cn(
+            "absolute flex items-center justify-center transition-all duration-700 ease-in-out",
+            styles.ship
+          )}
+        >
+          <Popover.Anchor>
+            <img src={shipImage} width={`${boxSize}px`} height={`${boxSize}px`} />
+          </Popover.Anchor>
+        </div>
+      </Popover.Trigger>
+      <Popover.Content>
+        <div className="px-4 py-2 bg-white bg-opacity-30 rounded flex flex-col text-center mt-2">
+          <span>Position</span>
+          <span>
+            ({x.toString(10)}, {y.toString(10)})
+          </span>
+        </div>
+      </Popover.Content>
+    </Popover.Root>
   );
 }
