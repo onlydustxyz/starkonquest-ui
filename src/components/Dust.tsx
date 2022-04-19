@@ -1,6 +1,8 @@
 import { useMemo } from "react";
 import cn from "classnames";
 import BN from "bn.js";
+import * as Popover from "@radix-ui/react-popover";
+
 import { DustData } from "src/hooks/useGrid";
 
 export interface DustProps {
@@ -13,8 +15,10 @@ export interface DustProps {
 export default function Dust({ boxSize, x, y, size }: DustProps) {
   const containerStyle = useMemo(() => {
     return {
-      left: (x.toNumber() + 0.5) * boxSize,
-      top: (y.toNumber() + 0.5) * boxSize,
+      left: x.toNumber() * boxSize,
+      top: y.toNumber() * boxSize,
+      width: `${boxSize}px`,
+      height: `${boxSize}px`,
     };
   }, [boxSize, x, y]);
 
@@ -35,13 +39,25 @@ export default function Dust({ boxSize, x, y, size }: DustProps) {
   }, []);
 
   return (
-    <div
-      style={containerStyle}
-      className={cn(
-        "absolute flex items-center justify-center rounded bg-light-blue transition-all duration-700 ease-in-out",
-        filterAnimation,
-        dustClassName
-      )}
-    ></div>
+    <Popover.Root>
+      <Popover.Trigger>
+        <div
+          style={containerStyle}
+          className={cn("absolute flex items-center justify-center  transition-all duration-700 ease-in-out")}
+        >
+          <Popover.Anchor>
+            <div className={cn("rounded", filterAnimation, dustClassName)}></div>
+          </Popover.Anchor>
+        </div>
+      </Popover.Trigger>
+      <Popover.Content>
+        <div className="px-4 py-2 bg-white bg-opacity-30 rounded flex flex-col text-center mt-2">
+          <span>Position</span>
+          <span>
+            ({x.toString(10)}, {y.toString(10)})
+          </span>
+        </div>
+      </Popover.Content>
+    </Popover.Root>
   );
 }

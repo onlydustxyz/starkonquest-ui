@@ -25,7 +25,7 @@ export default function Board({ dusts, ships, boardSize, gridSize, style }: Boar
           return <Dust key={dust.dustId} boxSize={boxSize} x={dust.position.x} y={dust.position.y} size={dust.size} />;
         })}
         {ships.map(ship => {
-          return <Ship key={ship.shipId} boxSize={boxSize} shipData={ship} />;
+          return <Ship key={ship.shipId} boxSize={boxSize} shipData={ship} x={ship.position.x} y={ship.position.y} />;
         })}
       </div>
     </ContentContainer>

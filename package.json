@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@argent/get-starknet": "^3.1.1",
+    "@radix-ui/react-popover": "^0.1.6",
     "@starknet-react/core": "^0.7.0",
     "bn.js": "^5.2.0",
     "classnames": "^2.3.1",
