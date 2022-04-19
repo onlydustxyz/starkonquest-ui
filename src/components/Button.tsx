@@ -1,22 +1,21 @@
 import cn from "classnames";
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
+import styles from "./Button.module.css";
+
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   theme?: "primary" | "secondary";
   children: ReactNode;
 }
 
 export default function Button({ children, theme = "primary", className, ...buttonProps }: ButtonProps) {
-  const themeClasses =
-    theme === "primary"
-      ? "bg-primary-600 hover:bg-primary-500 disabled:bg-primary-200"
-      : "bg-secondary-600 hover:bg-secondary-500 disabled:bg-secondary-200";
   return (
     <button
       className={cn(
         className,
-        themeClasses,
-        "py-2 px-4 cursor-pointer disabled:cursor-auto text-white text-xl font-bold uppercase text-base outline-none focus:outline-none border-none rounded"
+        styles[theme] ?? null,
+        styles.button,
+        "cursor-pointer font-bold uppercase text-base outline-none focus:outline-none border-none"
       )}
       type="button"
       {...buttonProps}
