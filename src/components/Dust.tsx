@@ -1,12 +1,13 @@
 import { useMemo } from "react";
 import cn from "classnames";
 import BN from "bn.js";
+import { DustData } from "src/hooks/useGrid";
 
 export interface DustProps {
   boxSize: number;
   x: BN;
   y: BN;
-  size: "tiny" | "regular" | "big";
+  size: DustData["size"];
 }
 
 export default function Dust({ boxSize, x, y, size }: DustProps) {

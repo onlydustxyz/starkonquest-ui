@@ -1,22 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { usePrevious } from "react-use";
 import cn from "classnames";
-import BN from "bn.js";
 
+import { ShipData } from "src/hooks/useGrid";
 import ships from "src/assets/img/spaceships";
 
 import styles from "./Ship.module.css";
 
 export interface ShipProps {
   boxSize: number;
-  shipData: {
-    shipId: string;
-    position: {
-      x: BN;
-      y: BN;
-    };
-    shipIndex: number;
-  };
+  shipData: ShipData;
 }
 
 export default function Ship({ boxSize, shipData }: ShipProps) {
