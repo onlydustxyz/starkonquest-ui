@@ -6,7 +6,7 @@ This project is a user interface to better visualize data from the [Starknet Onb
 
 Before starting, you need to install these tools
 
-- [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
+- [yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
 
 ## Install project 
 
@@ -17,6 +17,7 @@ yarn install
 ## Copy abi files
 
 Copy abi files from original Workshop repository [starknet-onboarding](https://github.com/onlydustxyz/starknet-onboarding) in the folder `src/abis`.
+_You have to compile the artifacts from the project [starknet-onboarding](https://github.com/onlydustxyz/starknet-onboarding), before being able to copy those files._
 
 ## Set contract addresses
 
