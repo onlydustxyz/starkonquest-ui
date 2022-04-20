@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import cn from "classnames";
 import BN from "bn.js";
-import * as Popover from "@radix-ui/react-popover";
+import * as HoverCard from "@radix-ui/react-hover-card";
 
 import { DustData } from "src/hooks/useGrid";
 
@@ -39,25 +39,25 @@ export default function Dust({ boxSize, x, y, size }: DustProps) {
   }, []);
 
   return (
-    <Popover.Root>
-      <Popover.Trigger>
-        <div
-          style={containerStyle}
-          className={cn("absolute flex items-center justify-center  transition-all duration-700 ease-in-out")}
-        >
-          <Popover.Anchor>
+    <HoverCard.Root>
+      <div
+        style={containerStyle}
+        className={cn("absolute flex items-center justify-center  transition-all duration-700 ease-in-out")}
+      >
+        <HoverCard.Trigger asChild>
+          <div className="w-full h-full flex items-center justify-center">
             <div className={cn("rounded", filterAnimation, dustClassName)}></div>
-          </Popover.Anchor>
-        </div>
-      </Popover.Trigger>
-      <Popover.Content>
+          </div>
+        </HoverCard.Trigger>
+      </div>
+      <HoverCard.Content>
         <div className="px-4 py-2 bg-white bg-opacity-30 rounded flex flex-col text-center mt-2">
           <span>Position</span>
           <span>
             ({x.toString(10)}, {y.toString(10)})
           </span>
         </div>
-      </Popover.Content>
-    </Popover.Root>
+      </HoverCard.Content>
+    </HoverCard.Root>
   );
 }

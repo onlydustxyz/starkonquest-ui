@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { usePrevious } from "react-use";
 import cn from "classnames";
-import * as Popover from "@radix-ui/react-popover";
+import * as HoverCard from "@radix-ui/react-hover-card";
 
 import { ShipData } from "src/hooks/useGrid";
 import ships from "src/assets/img/spaceships";
@@ -52,28 +52,23 @@ export default function Ship({ boxSize, shipData, x, y }: ShipProps) {
   }, [angle, boxSize, shipData.position.x, shipData.position.y]);
 
   return (
-    <Popover.Root>
-      <Popover.Trigger>
-        <div
-          style={containerStyle}
-          className={cn(
-            "absolute flex items-center justify-center transition-all duration-700 ease-in-out",
-            styles.ship
-          )}
-        >
-          <Popover.Anchor>
-            <img src={shipImage} width={`${boxSize}px`} height={`${boxSize}px`} />
-          </Popover.Anchor>
-        </div>
-      </Popover.Trigger>
-      <Popover.Content>
+    <HoverCard.Root>
+      <div
+        style={containerStyle}
+        className={cn("absolute flex items-center justify-center transition-all duration-700 ease-in-out", styles.ship)}
+      >
+        <HoverCard.Trigger>
+          <img src={shipImage} width={`${boxSize}px`} height={`${boxSize}px`} />
+        </HoverCard.Trigger>
+      </div>
+      <HoverCard.Content>
         <div className="px-4 py-2 bg-white bg-opacity-30 rounded flex flex-col text-center mt-2">
           <span>Position</span>
           <span>
             ({x.toString(10)}, {y.toString(10)})
           </span>
         </div>
-      </Popover.Content>
-    </Popover.Root>
+      </HoverCard.Content>
+    </HoverCard.Root>
   );
 }
