@@ -15,7 +15,7 @@ export default function Game() {
 
   const [currentTurnIndex, setCurrentTurnIndex] = useState(-1);
   const { gameStateReady, gridSize, turnIndex, events } = useGameState();
-  const { dusts, ships, play, pause, isPlaying } = useGrid(events);
+  const { dusts, ships, play, pause, isPlaying, winner } = useGrid(events);
 
   useEffect(() => {
     if (gridSize && turnIndex !== undefined && turnIndex > currentTurnIndex) {
@@ -67,7 +67,14 @@ export default function Game() {
       return (
         <div>
           <Header style={headerStyle} start={play} pause={pause} isPlaying={isPlaying} ships={ships} />
-          <Board boardSize={boardSize} style={boardStyle} gridSize={gridSize as number} dusts={dusts} ships={ships} />
+          <Board
+            boardSize={boardSize}
+            style={boardStyle}
+            gridSize={gridSize as number}
+            dusts={dusts}
+            ships={ships}
+            winner={winner}
+          />
         </div>
       );
     }
