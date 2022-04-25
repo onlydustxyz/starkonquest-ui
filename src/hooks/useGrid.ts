@@ -135,6 +135,8 @@ export default function useGrid(events: GameEvent[]) {
 
   const gameFinished = useCallback((gameEvent: GameEventGameFinished) => {
     setWinner(gameEvent.winnerShipId);
+    setIsPlaying(false);
+  }, []);
   }, []);
 
   const performNextMove = useCallback(() => {
@@ -194,7 +196,12 @@ export default function useGrid(events: GameEvent[]) {
     setIsPlaying(false);
   }, []);
 
-  return { dusts, ships, winner, play, pause, isPlaying };
+  const resetAndPlay = useCallback(() => {
+    shipIndex.current = 0;
+    play();
+  }, [play]);
+
+  return { dusts, ships, winner, play, pause, resetAndPlay, isPlaying };
 
   function getOrSetSizeByDustId(dustId: string) {
     if (sizeByDustId.has(dustId)) {

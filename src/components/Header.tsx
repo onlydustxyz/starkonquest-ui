@@ -9,15 +9,17 @@ import { ShipData } from "src/hooks/useGrid";
 export interface HeaderProps {
   start: () => void;
   pause: () => void;
+  replay: () => void;
   ships: ShipData[];
+  winner: ShipData["shipId"] | undefined;
   isPlaying: boolean;
   className?: string;
 
   style?: CSSProperties;
 }
 
-export default function Header({ className, style, isPlaying, pause, start, ships }: HeaderProps) {
   const { account, gameStateReady, turnIndex, score } = useGameState();
+export default function Header({ className, style, isPlaying, pause, start, replay, ships, winner }: HeaderProps) {
 
   return (
     <div style={style} className={cn("px-4 bg-opacity-60 rounded-lg text-snow flex flex-row", className)}>
@@ -56,6 +58,8 @@ export default function Header({ className, style, isPlaying, pause, start, ship
           Pause
         </Button>
       );
+    } else if (winner) {
+      return <Button onClick={replay}>Replay game</Button>;
     } else {
       return <Button onClick={start}>Play game</Button>;
     }
