@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useWindowSize } from "react-use";
 
 import Board from "src/components/Board";
@@ -13,17 +13,8 @@ const gapSize = 16;
 export default function Game() {
   const { width: windowWidth, height: windowHeight } = useWindowSize();
 
-  const [currentTurnIndex, setCurrentTurnIndex] = useState(-1);
-  const { gameStateReady, gridSize, turnIndex, events } = useGameState();
-  const { dusts, ships, play, pause, isPlaying, winner } = useGrid(events);
-
-  useEffect(() => {
-    if (gridSize && turnIndex !== undefined && turnIndex > currentTurnIndex) {
-      (async function () {
-        setCurrentTurnIndex(turnIndex);
-      })();
-    }
-  }, [currentTurnIndex, turnIndex, setCurrentTurnIndex]);
+  const { gameStateReady, gridSize, events } = useGameState();
+  const { dusts, ships, play, pause, resetAndPlay, isPlaying, winner, currentTurn } = useGrid(events);
 
   const containerStyle = useMemo(() => {
     const leftPadding = Math.floor(headerHeight / 2);
@@ -66,7 +57,16 @@ export default function Game() {
     if (gameStateReady) {
       return (
         <div>
-          <Header style={headerStyle} start={play} pause={pause} isPlaying={isPlaying} ships={ships} />
+          <Header
+            style={headerStyle}
+            start={play}
+            pause={pause}
+            replay={resetAndPlay}
+            isPlaying={isPlaying}
+            ships={ships}
+            winner={winner}
+            currentTurn={currentTurn}
+          />
           <Board
             boardSize={boardSize}
             style={boardStyle}

@@ -14,12 +14,23 @@ export interface HeaderProps {
   winner: ShipData["shipId"] | undefined;
   isPlaying: boolean;
   className?: string;
+  currentTurn: number;
 
   style?: CSSProperties;
 }
 
-  const { account, gameStateReady, turnIndex, score } = useGameState();
-export default function Header({ className, style, isPlaying, pause, start, replay, ships, winner }: HeaderProps) {
+export default function Header({
+  className,
+  style,
+  isPlaying,
+  pause,
+  start,
+  replay,
+  ships,
+  winner,
+  currentTurn,
+}: HeaderProps) {
+  const { account, gameStateReady, score } = useGameState();
 
   return (
     <div style={style} className={cn("px-4 bg-opacity-60 rounded-lg text-snow flex flex-row", className)}>
@@ -44,7 +55,7 @@ export default function Header({ className, style, isPlaying, pause, start, repl
           </div>
         </div>
         <div className="self-center flex flex-col items-end">
-          <div className="mb-4">Current turn : {turnIndex}</div>
+          <div className="mb-4">Current turn : {currentTurn}</div>
           <div>{renderControls()}</div>
         </div>
       </>

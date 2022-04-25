@@ -14,7 +14,6 @@ export default function GameProvider({ children }: GameProviderProps) {
 
   const [gridSize, setGridSize] = useState<number>();
   const [gameStateReady, setGameStateReady] = useState(false);
-  const [gameStarted, setGameStarted] = useState(false);
 
   const [events, setEvents] = useState<GameEvent[]>(testEvents);
 
@@ -40,14 +39,6 @@ export default function GameProvider({ children }: GameProviderProps) {
 
   const score = 0;
 
-  const turnIndex = 1;
-
-  useEffect(() => {
-    if (turnIndex && turnIndex > 0 && gameStarted === false) {
-      setGameStarted(true);
-    }
-  }, [gameStarted, setGameStarted, turnIndex]);
-
   useEffect(() => {
     if (gridSize) {
       setGameStateReady(true);
@@ -58,9 +49,7 @@ export default function GameProvider({ children }: GameProviderProps) {
     <GameContext.Provider
       value={{
         gameStateReady,
-        turnIndex,
         gridSize,
-        gameStarted,
         score,
         account,
         turnLoading,

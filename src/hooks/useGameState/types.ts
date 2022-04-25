@@ -46,6 +46,11 @@ export interface GameEventGameFinished {
   winnerShipId: string;
 }
 
+export interface GameEventNewTurn {
+  key: "new_turn";
+  turnNumber: number;
+}
+
 export type GameEvent =
   | GameEventDustSpawned
   | GameEventDustDestroyed
@@ -53,9 +58,14 @@ export type GameEvent =
   | GameEventShipAdded
   | GameEventShipMoved
   | GameEventScoreChanged
-  | GameEventGameFinished;
+  | GameEventGameFinished
+  | GameEventNewTurn;
 
 export const testEvents: GameEvent[] = [
+  {
+    key: "new_turn",
+    turnNumber: 1,
+  },
   {
     key: "ship_added",
     shipId: "1",
@@ -87,6 +97,10 @@ export const testEvents: GameEvent[] = [
       x: 0,
       y: 5,
     },
+  },
+  {
+    key: "new_turn",
+    turnNumber: 2,
   },
   {
     key: "ship_moved",
@@ -143,6 +157,10 @@ export const testEvents: GameEvent[] = [
       x: 19,
       y: 15,
     },
+  },
+  {
+    key: "new_turn",
+    turnNumber: 3,
   },
   {
     key: "ship_moved",
@@ -204,6 +222,10 @@ export const testEvents: GameEvent[] = [
     key: "score_changed",
     shipId: "1",
     score: 2,
+  },
+  {
+    key: "new_turn",
+    turnNumber: 4,
   },
   {
     key: "dust_destroyed",

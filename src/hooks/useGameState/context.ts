@@ -11,8 +11,6 @@ export enum TurnState {
 
 interface GameContext {
   gameStateReady: boolean;
-  turnIndex: number | undefined;
-  gameStarted: boolean;
   gridSize: number | undefined;
   score: number;
   account: string | undefined;
@@ -23,8 +21,6 @@ interface GameContext {
 
 const defaultGameContext: GameContext = {
   gameStateReady: false,
-  turnIndex: undefined,
-  gameStarted: false,
   gridSize: undefined,
   score: 0,
   account: undefined,

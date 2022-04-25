@@ -6,6 +6,7 @@ import {
   GameEventDustMoved,
   GameEventDustSpawned,
   GameEventGameFinished,
+  GameEventNewTurn,
   GameEventScoreChanged,
   GameEventShipAdded,
   GameEventShipMoved,
@@ -39,6 +40,7 @@ export default function useGrid(events: GameEvent[]) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [dusts, setDusts] = useState<DustData[]>([]);
   const [ships, setShips] = useState<ShipData[]>([]);
+  const [currentTurn, setCurrentTurn] = useState(0);
 
   const performedEventIndex = useRef(-1);
   const shipIndex = useRef(0);
@@ -137,6 +139,9 @@ export default function useGrid(events: GameEvent[]) {
     setWinner(gameEvent.winnerShipId);
     setIsPlaying(false);
   }, []);
+
+  const newTurn = useCallback((gameEvent: GameEventNewTurn) => {
+    setCurrentTurn(gameEvent.turnNumber);
   }, []);
 
   const performNextMove = useCallback(() => {
@@ -171,6 +176,9 @@ export default function useGrid(events: GameEvent[]) {
       case "game_finished":
         gameFinished(nextEvent);
         break;
+      case "new_turn":
+        newTurn(nextEvent);
+        break;
     }
   }, [events, performedEventIndex]);
 
@@ -201,7 +209,7 @@ export default function useGrid(events: GameEvent[]) {
     play();
   }, [play]);
 
-  return { dusts, ships, winner, play, pause, resetAndPlay, isPlaying };
+  return { dusts, ships, winner, play, pause, resetAndPlay, isPlaying, currentTurn };
 
   function getOrSetSizeByDustId(dustId: string) {
     if (sizeByDustId.has(dustId)) {
