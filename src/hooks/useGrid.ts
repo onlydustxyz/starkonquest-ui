@@ -145,14 +145,13 @@ export default function useGrid(events: GameEvent[]) {
   }, []);
 
   const performNextMove = useCallback(() => {
-    if (events.length <= performedEventIndex.current) {
+    performedEventIndex.current += 1;
+
+    if (events.length < performedEventIndex.current) {
       return;
     }
 
-    const newEventIndex = performedEventIndex.current + 1;
-    const nextEvent = events[newEventIndex];
-
-    performedEventIndex.current += 1;
+    const nextEvent = events[performedEventIndex.current];
 
     switch (nextEvent.key) {
       case "dust_spawned":
@@ -205,8 +204,12 @@ export default function useGrid(events: GameEvent[]) {
   }, []);
 
   const resetAndPlay = useCallback(() => {
-    shipIndex.current = 0;
+    performedEventIndex.current = 0;
     play();
+    setDusts([]);
+    setShips([]);
+    setCurrentTurn(0);
+    setWinner(undefined);
   }, [play]);
 
   return { dusts, ships, winner, play, pause, resetAndPlay, isPlaying, currentTurn };
