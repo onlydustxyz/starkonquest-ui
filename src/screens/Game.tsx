@@ -14,17 +14,16 @@ export default function Game() {
   const { width: windowWidth, height: windowHeight } = useWindowSize();
 
   const [currentTurnIndex, setCurrentTurnIndex] = useState(-1);
-  const { gameStateReady, gridSize, turnIndex } = useGameState();
-  const { dusts, ships, refreshGrid, gridReady } = useGrid();
+  const { gameStateReady, gridSize, turnIndex, events } = useGameState();
+  const { dusts, ships, play, pause, isPlaying } = useGrid(events);
 
   useEffect(() => {
     if (gridSize && turnIndex !== undefined && turnIndex > currentTurnIndex) {
       (async function () {
-        await refreshGrid();
         setCurrentTurnIndex(turnIndex);
       })();
     }
-  }, [currentTurnIndex, turnIndex, refreshGrid, setCurrentTurnIndex]);
+  }, [currentTurnIndex, turnIndex, setCurrentTurnIndex]);
 
   const containerStyle = useMemo(() => {
     const leftPadding = Math.floor(headerHeight / 2);
@@ -64,10 +63,10 @@ export default function Game() {
   );
 
   function renderGame() {
-    if (gameStateReady && gridReady) {
+    if (gameStateReady) {
       return (
         <div>
-          <Header style={headerStyle} />
+          <Header style={headerStyle} start={play} pause={pause} isPlaying={isPlaying} ships={ships} />
           <Board boardSize={boardSize} style={boardStyle} gridSize={gridSize as number} dusts={dusts} ships={ships} />
         </div>
       );

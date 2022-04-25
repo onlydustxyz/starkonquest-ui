@@ -7,13 +7,12 @@ import { ShipData } from "src/hooks/useGrid";
 import ships from "src/assets/img/spaceships";
 
 import styles from "./Ship.module.css";
-import BN from "bn.js";
 
 export interface ShipProps {
   boxSize: number;
   shipData: ShipData;
-  x: BN;
-  y: BN;
+  x: number;
+  y: number;
 }
 
 export default function Ship({ boxSize, shipData, x, y }: ShipProps) {
@@ -21,15 +20,15 @@ export default function Ship({ boxSize, shipData, x, y }: ShipProps) {
   const [angle, setAngle] = useState(0);
 
   const shipImage = useMemo(() => {
-    return ships[shipData.shipIndex] || ships[1];
+    return ships[shipData.shipIndex] || ships[0];
   }, [shipData.shipIndex]);
 
   useEffect(() => {
-    const prevX = previousPosition?.x.toNumber() || 0;
-    const prevY = previousPosition?.y.toNumber() || 0;
+    const prevX = previousPosition?.x || 0;
+    const prevY = previousPosition?.y || 0;
 
-    const newX = shipData.position.x.toNumber();
-    const newY = shipData.position.y.toNumber();
+    const newX = shipData.position.x;
+    const newY = shipData.position.y;
 
     if (newX === prevX && newY === prevY) {
       return;
@@ -46,8 +45,8 @@ export default function Ship({ boxSize, shipData, x, y }: ShipProps) {
   const containerStyle = useMemo(() => {
     return {
       transform: `rotate(${angle}deg)`,
-      left: (shipData.position.x.toNumber() + 0.5) * boxSize,
-      top: (shipData.position.y.toNumber() + 0.5) * boxSize,
+      left: shipData.position.x * boxSize,
+      top: shipData.position.y * boxSize,
     };
   }, [angle, boxSize, shipData.position.x, shipData.position.y]);
 

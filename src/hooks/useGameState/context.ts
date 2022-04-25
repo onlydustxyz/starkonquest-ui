@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { number } from "starknet";
+import { GameEvent } from "./types";
 
 export enum TurnState {
   NOT_STARTED,
@@ -13,28 +13,25 @@ interface GameContext {
   gameStateReady: boolean;
   turnIndex: number | undefined;
   gameStarted: boolean;
-  turnState: TurnState;
   gridSize: number | undefined;
   score: number;
   account: string | undefined;
   turnLoading: boolean;
   setTurnLoading: (value: boolean) => void;
-  nextTurn: () => void;
+  events: GameEvent[];
 }
 
 const defaultGameContext: GameContext = {
   gameStateReady: false,
   turnIndex: undefined,
   gameStarted: false,
-  turnState: TurnState.NOT_STARTED,
   gridSize: undefined,
   score: 0,
   account: undefined,
   turnLoading: false,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setTurnLoading: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  nextTurn: () => {},
+  events: [],
 };
 
 const GameContext = createContext(defaultGameContext);

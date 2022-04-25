@@ -1,22 +1,21 @@
 import { useMemo } from "react";
 import cn from "classnames";
-import BN from "bn.js";
 import * as HoverCard from "@radix-ui/react-hover-card";
 
 import { DustData } from "src/hooks/useGrid";
 
 export interface DustProps {
   boxSize: number;
-  x: BN;
-  y: BN;
+  x: number;
+  y: number;
   size: DustData["size"];
 }
 
 export default function Dust({ boxSize, x, y, size }: DustProps) {
   const containerStyle = useMemo(() => {
     return {
-      left: x.toNumber() * boxSize,
-      top: y.toNumber() * boxSize,
+      left: x * boxSize,
+      top: y * boxSize,
       width: `${boxSize}px`,
       height: `${boxSize}px`,
     };
