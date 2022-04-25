@@ -20,19 +20,23 @@ export default function GameProvider({ children }: GameProviderProps) {
 
   const [turnLoading, setTurnLoading] = useState(false);
 
-  const { contract: spaceContract } = useSpaceContract();
+  // const { contract: spaceContract } = useSpaceContract();
+
+  // useEffect(() => {
+  //   (async function () {
+  //     if (!spaceContract) {
+  //       return;
+  //     }
+
+  //     const res = await spaceContract.call("get_grid_size");
+
+  //     setGridSize(res[0].toNumber());
+  //   })();
+  // }, [spaceContract]);
 
   useEffect(() => {
-    (async function () {
-      if (!spaceContract) {
-        return;
-      }
-
-      const res = await spaceContract.call("get_grid_size");
-
-      setGridSize(res[0].toNumber());
-    })();
-  }, [spaceContract]);
+    setGridSize(20);
+  }, []);
 
   const score = 0;
 
