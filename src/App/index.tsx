@@ -1,7 +1,10 @@
 import { InjectedConnector, StarknetProvider } from "@starknet-react/core";
-import { GameProvider } from "src/hooks/useGameState";
-import Game from "src/screens/Game";
+import { lazy, Suspense } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import { Provider } from "starknet";
+
+const GameScreen = lazy(() => import("src/screens/Game"));
 
 export default function App() {
   const connectors = [new InjectedConnector()];
@@ -9,9 +12,18 @@ export default function App() {
 
   return (
     <StarknetProvider connectors={connectors} defaultProvider={defaultProvider} autoConnect>
-      <GameProvider>
-        <Game />
-      </GameProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Suspense fallback={<>...</>}>
+                <GameScreen />
+              </Suspense>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </StarknetProvider>
   );
 }
