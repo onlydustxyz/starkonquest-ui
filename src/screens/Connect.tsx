@@ -15,7 +15,7 @@ export default function ConnectScreen() {
   return (
     <div className="container flex flex-col items-center justify-center h-screen w-screen">
       <h1 className="text-snow text-[32px] font-bold whitespace-nowrap mb-16">
-        Starknet Onboarding <sub className="text-[20px]">by OnlyDust</sub>
+        Starkonquest <sub className="text-[20px]">by OnlyDust</sub>
       </h1>
       <div className="mb-16">{renderButton()}</div>
     </div>
