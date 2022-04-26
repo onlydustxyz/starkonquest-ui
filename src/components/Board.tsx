@@ -9,13 +9,13 @@ import WinnerBoard from "./WinnerBoard";
 export interface BoardProps {
   gridSize: number;
   boardSize: number;
-  winner: ShipData["shipId"] | undefined;
+  isGameFinished: boolean;
   dusts: DustData[];
   ships: ShipData[];
   style?: CSSProperties;
 }
 
-export default function Board({ dusts, ships, winner, boardSize, gridSize, style }: BoardProps) {
+export default function Board({ dusts, ships, isGameFinished, boardSize, gridSize, style }: BoardProps) {
   const boxSize = useMemo(() => {
     return Math.floor(boardSize / gridSize);
   }, [boardSize, gridSize]);
@@ -35,10 +35,10 @@ export default function Board({ dusts, ships, winner, boardSize, gridSize, style
   );
 
   function renderWinnerBoard() {
-    if (!winner) {
+    if (!isGameFinished) {
       return null;
     }
 
-    return <WinnerBoard winner={winner} ships={ships} />;
+    return <WinnerBoard ships={ships} />;
   }
 }

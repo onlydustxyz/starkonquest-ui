@@ -36,7 +36,7 @@ const sizeByDustId = new Map<string, DustData["size"]>();
 const indexByShipId = new Map<string, number>();
 
 export default function useGrid(events: GameEvent[]) {
-  const [winner, setWinner] = useState<ShipData["shipId"]>();
+  const [isGameFinished, setIsGameFinished] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [dusts, setDusts] = useState<DustData[]>([]);
   const [ships, setShips] = useState<ShipData[]>([]);
@@ -136,7 +136,7 @@ export default function useGrid(events: GameEvent[]) {
   }, []);
 
   const gameFinished = useCallback((gameEvent: GameEventGameFinished) => {
-    setWinner(gameEvent.winnerShipId);
+    setIsGameFinished(true);
     setIsPlaying(false);
   }, []);
 
@@ -209,10 +209,10 @@ export default function useGrid(events: GameEvent[]) {
     setDusts([]);
     setShips([]);
     setCurrentTurn(0);
-    setWinner(undefined);
+    setIsGameFinished(false);
   }, [play]);
 
-  return { dusts, ships, winner, play, pause, resetAndPlay, isPlaying, currentTurn };
+  return { dusts, ships, isGameFinished, play, pause, resetAndPlay, isPlaying, currentTurn };
 
   function getOrSetSizeByDustId(dustId: string) {
     if (sizeByDustId.has(dustId)) {

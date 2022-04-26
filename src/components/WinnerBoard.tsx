@@ -4,10 +4,9 @@ import { ShipData } from "src/hooks/useGrid";
 import shipImages from "src/assets/img/spaceships";
 
 interface WinnerBoardProps {
-  winner: ShipData["shipId"];
   ships: ShipData[];
 }
-export default function WinnerBoard({ winner, ships }: WinnerBoardProps) {
+export default function WinnerBoard({ ships }: WinnerBoardProps) {
   const orderedShips = useMemo(() => {
     return ships.sort((ship1, ship2) => {
       return ship1.score > ship2.score ? -1 : ship1.score === ship2.score ? 0 : 1;

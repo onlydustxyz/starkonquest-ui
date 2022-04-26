@@ -14,7 +14,7 @@ export default function Game() {
   const { width: windowWidth, height: windowHeight } = useWindowSize();
 
   const { gameStateReady, gridSize, events } = useGameState();
-  const { dusts, ships, play, pause, resetAndPlay, isPlaying, winner, currentTurn } = useGrid(events);
+  const { dusts, ships, play, pause, resetAndPlay, isPlaying, isGameFinished, currentTurn } = useGrid(events);
 
   const containerStyle = useMemo(() => {
     const leftPadding = Math.floor(headerHeight / 2);
@@ -64,7 +64,7 @@ export default function Game() {
             replay={resetAndPlay}
             isPlaying={isPlaying}
             ships={ships}
-            winner={winner}
+            isGameFinished={isGameFinished}
             currentTurn={currentTurn}
           />
           <Board
@@ -73,7 +73,7 @@ export default function Game() {
             gridSize={gridSize as number}
             dusts={dusts}
             ships={ships}
-            winner={winner}
+            isGameFinished={isGameFinished}
           />
         </div>
       );

@@ -11,7 +11,7 @@ export interface HeaderProps {
   pause: () => void;
   replay: () => void;
   ships: ShipData[];
-  winner: ShipData["shipId"] | undefined;
+  isGameFinished: boolean;
   isPlaying: boolean;
   className?: string;
   currentTurn: number;
@@ -27,7 +27,7 @@ export default function Header({
   start,
   replay,
   ships,
-  winner,
+  isGameFinished,
   currentTurn,
 }: HeaderProps) {
   const { account, gameStateReady, score } = useGameState();
@@ -69,7 +69,7 @@ export default function Header({
           Pause
         </Button>
       );
-    } else if (winner) {
+    } else if (isGameFinished) {
       return <Button onClick={replay}>Replay game</Button>;
     } else {
       return <Button onClick={start}>Play game</Button>;
