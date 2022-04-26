@@ -208,6 +208,7 @@ export default function useGrid(events: GameEvent[]) {
 
   useEffect(() => {
     if (isPlaying) {
+      performNextMove();
       playInterval.current = setInterval(performNextMove, interval);
     } else if (playInterval.current) {
       clearInterval(playInterval.current);

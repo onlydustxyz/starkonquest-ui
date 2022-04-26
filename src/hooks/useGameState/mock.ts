@@ -1,9 +1,9 @@
 import { GameEvent } from "./types";
 
 const testEvents: GameEvent[] = [
-  { key: "dust_spawned", dustId: "1", position: { x: 19, y: 3 }, direction: { x: -1, y: -1 } },
   { key: "ship_added", shipId: "1", position: { x: 16, y: 11 } },
   { key: "ship_added", shipId: "2", position: { x: 7, y: 7 } },
+  { key: "dust_spawned", dustId: "1", position: { x: 19, y: 3 }, direction: { x: -1, y: -1 } },
   { key: "new_turn", turnNumber: 1 },
   { key: "dust_moved", dustId: "1", previousPosition: { x: 19, y: 3 }, position: { x: 18, y: 2 } },
   { key: "dust_spawned", dustId: "2", position: { x: 5, y: 19 }, direction: { x: 1, y: -1 } },
