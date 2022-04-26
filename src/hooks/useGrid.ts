@@ -35,6 +35,8 @@ const availableDustSize: DustData["size"][] = ["tiny", "regular", "big"];
 const sizeByDustId = new Map<string, DustData["size"]>();
 const indexByShipId = new Map<string, number>();
 
+const interval = 750;
+
 export default function useGrid(events: GameEvent[]) {
   const [isGameFinished, setIsGameFinished] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -82,11 +84,13 @@ export default function useGrid(events: GameEvent[]) {
 
   const dustDestroyed = useCallback(
     (gameEvent: GameEventDustDestroyed) => {
-      setDusts(dusts => {
-        return dusts.filter(dust => {
-          return dust.dustId !== gameEvent.dustId;
+      setTimeout(() => {
+        setDusts(dusts => {
+          return dusts.filter(dust => {
+            return dust.dustId !== gameEvent.dustId;
+          });
         });
-      });
+      }, interval);
     },
     [setDusts]
   );
@@ -121,18 +125,20 @@ export default function useGrid(events: GameEvent[]) {
   }, []);
 
   const scoreChanged = useCallback((gameEvent: GameEventScoreChanged) => {
-    setShips(ships => {
-      return ships.map(ship => {
-        if (ship.shipId !== gameEvent.shipId) {
-          return ship;
-        }
+    setTimeout(() => {
+      setShips(ships => {
+        return ships.map(ship => {
+          if (ship.shipId !== gameEvent.shipId) {
+            return ship;
+          }
 
-        return {
-          ...ship,
-          score: gameEvent.score,
-        };
+          return {
+            ...ship,
+            score: gameEvent.score,
+          };
+        });
       });
-    });
+    }, interval);
   }, []);
 
   const gameFinished = useCallback((gameEvent: GameEventGameFinished) => {
@@ -145,45 +151,64 @@ export default function useGrid(events: GameEvent[]) {
   }, []);
 
   const performNextMove = useCallback(() => {
-    performedEventIndex.current += 1;
+    const internalPerform = function () {
+      performedEventIndex.current += 1;
 
-    if (events.length < performedEventIndex.current) {
-      return;
-    }
+      if (events.length < performedEventIndex.current) {
+        return;
+      }
 
-    const nextEvent = events[performedEventIndex.current];
+      const newEvent = events[performedEventIndex.current];
 
-    switch (nextEvent.key) {
-      case "dust_spawned":
-        dustSpawned(nextEvent);
-        break;
-      case "dust_moved":
-        dustMoved(nextEvent);
-        break;
-      case "dust_destroyed":
-        dustDestroyed(nextEvent);
-        break;
-      case "ship_added":
-        shipAdded(nextEvent);
-        break;
-      case "ship_moved":
-        shipMoved(nextEvent);
-        break;
-      case "score_changed":
-        scoreChanged(nextEvent);
-        break;
-      case "game_finished":
-        gameFinished(nextEvent);
-        break;
-      case "new_turn":
-        newTurn(nextEvent);
-        break;
-    }
+      switch (newEvent.key) {
+        case "dust_spawned":
+          dustSpawned(newEvent);
+          break;
+        case "dust_moved":
+          dustMoved(newEvent);
+          break;
+        case "dust_destroyed":
+          dustDestroyed(newEvent);
+          break;
+        case "ship_added":
+          shipAdded(newEvent);
+          break;
+        case "ship_moved":
+          shipMoved(newEvent);
+          break;
+        case "score_changed":
+          scoreChanged(newEvent);
+          break;
+        case "game_finished":
+          gameFinished(newEvent);
+          break;
+        case "new_turn":
+          newTurn(newEvent);
+          break;
+      }
+
+      const nextEvent = events[performedEventIndex.current + 1] || null;
+
+      if (nextEvent) {
+        const newEventKeyPrefix = newEvent.key.split("_")[0];
+        const nextEventKeyPrefix = nextEvent.key.split("_")[0];
+
+        if (
+          newEventKeyPrefix === nextEventKeyPrefix ||
+          nextEventKeyPrefix === "score" ||
+          nextEvent.key === "dust_destroyed"
+        ) {
+          internalPerform();
+        }
+      }
+    };
+
+    internalPerform();
   }, [events, performedEventIndex]);
 
   useEffect(() => {
     if (isPlaying) {
-      playInterval.current = setInterval(performNextMove, 1000);
+      playInterval.current = setInterval(performNextMove, interval);
     } else if (playInterval.current) {
       clearInterval(playInterval.current);
     }
