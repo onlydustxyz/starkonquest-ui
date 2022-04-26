@@ -15,7 +15,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route
-            path="/"
+            path="/game/:transactionHash"
             element={
               <Suspense fallback={<>...</>}>
                 <GameScreen />

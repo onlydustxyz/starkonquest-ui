@@ -32,21 +32,34 @@ export interface TransactionReceipt {
 }
 
 const eventNameByKey = new Map<string, string>();
+const functionNameByKey = new Map<string, string>();
 
-function loadEvents() {
+function loadAbi() {
   spaceAbi.forEach(abiItem => {
     if (abiItem.type === "event" && abiItem.name) {
       eventNameByKey.set(getSelectorFromName(abiItem.name), abiItem.name);
+    }
+
+    if (abiItem.type === "function" && abiItem.name) {
+      functionNameByKey.set(getSelectorFromName(abiItem.name), abiItem.name);
     }
   });
 }
 
 export function getEventNameFromKey(key: string) {
-  if (eventNameByKey.size === 0) {
-    loadEvents();
+  if (eventNameByKey.size === 0 && functionNameByKey.size === 0) {
+    loadAbi();
   }
 
   return eventNameByKey.get(key) || "anonymous";
+}
+
+export function getFunctionNameFromKey(key: string) {
+  if (eventNameByKey.size === 0 && functionNameByKey.size === 0) {
+    loadAbi();
+  }
+
+  return functionNameByKey.get(key) || "anonymous";
 }
 
 const decodeFunctionByName: Record<GameEvent["key"], (event: TransactionEvent) => GameEvent> = {

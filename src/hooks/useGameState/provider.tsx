@@ -1,72 +1,79 @@
 import { useStarknet } from "@starknet-react/core";
 import { ReactNode, useEffect, useState } from "react";
-import { decodeEvent, TransactionReceipt } from "src/helpers/abis";
+import { decodeEvent, getFunctionNameFromKey, TransactionReceipt } from "src/helpers/abis";
+import { decodeToNumber } from "src/utils/felt";
 
-import useSpaceContract from "../useSpaceContract";
 import { context as GameContext } from "./context";
-import { GameEvent, testEvents } from "./types";
+import { GameEvent } from "./types";
+import testEvents from "./mock";
 
 interface GameProviderProps {
   children: ReactNode;
+  transactionHash: string | undefined;
 }
 
-export default function GameProvider({ children }: GameProviderProps) {
+export default function GameProvider({ children, transactionHash }: GameProviderProps) {
   const { account } = useStarknet();
 
   const [gridSize, setGridSize] = useState<number>();
+  const [maxTurn, setMaxTurn] = useState<number>();
   const [gameStateReady, setGameStateReady] = useState(false);
 
-  const [events, setEvents] = useState<GameEvent[]>(testEvents);
+  const [events, setEvents] = useState<GameEvent[]>([]);
 
   const [turnLoading, setTurnLoading] = useState(false);
 
   useEffect(() => {
-    const transactionHash = "0x53798571ea52834c6334de8c10b411452ae62d56f88042e1df4fb4d7e70d86c";
-
     (async function () {
-      const response = await fetch(
-        `https://hackathon-0.starknet.io/feeder_gateway/get_transaction_receipt?transactionHash=${transactionHash}`
-      );
+      if (!transactionHash) {
+        return;
+      }
 
-      const jsonResponse: TransactionReceipt = await response.json();
+      if (transactionHash === "0x00") {
+        setEvents(testEvents);
+        setGridSize(20);
+        setMaxTurn(20);
+        return;
+      }
 
-      const decodedEvents = jsonResponse.events.map(decodeEvent).filter(a => !!a) as GameEvent[];
+      const [transactionReceiptResponse, transactionTraceResponse] = await Promise.all([
+        fetch(
+          `https://hackathon-0.starknet.io/feeder_gateway/get_transaction_receipt?transactionHash=${transactionHash}`
+        ),
+        fetch(
+          `https://hackathon-0.starknet.io/feeder_gateway/get_transaction_trace?transactionHash=${transactionHash}`
+        ),
+      ]);
+
+      const jsonReceipt: TransactionReceipt = await transactionReceiptResponse.json();
+      const jsonTrace: any = await transactionTraceResponse.json();
+
+      const decodedEvents = jsonReceipt.events.map(decodeEvent).filter(a => !!a) as GameEvent[];
+
+      if (getFunctionNameFromKey(jsonTrace.function_invocation.internal_calls[0].selector) === "play_game") {
+        const call = jsonTrace.function_invocation.internal_calls[0];
+        setGridSize(decodeToNumber(call.calldata[1]));
+        setMaxTurn(decodeToNumber(call.calldata[2]));
+      }
 
       setEvents(decodedEvents);
     })();
-  }, []);
-
-  // const { contract: spaceContract } = useSpaceContract();
-
-  // useEffect(() => {
-  //   (async function () {
-  //     if (!spaceContract) {
-  //       return;
-  //     }
-
-  //     const res = await spaceContract.call("get_grid_size");
-
-  //     setGridSize(res[0].toNumber());
-  //   })();
-  // }, [spaceContract]);
-
-  useEffect(() => {
-    setGridSize(20);
-  }, []);
+  }, [transactionHash]);
 
   const score = 0;
 
   useEffect(() => {
-    if (gridSize) {
+    if (gridSize && maxTurn) {
       setGameStateReady(true);
     }
-  }, [gridSize]);
+  }, [gridSize, maxTurn]);
 
   return (
     <GameContext.Provider
       value={{
         gameStateReady,
         gridSize,
+        maxTurn,
         score,
         account,
         turnLoading,

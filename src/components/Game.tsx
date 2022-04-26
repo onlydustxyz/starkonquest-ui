@@ -13,7 +13,7 @@ const gapSize = 16;
 export default function Game() {
   const { width: windowWidth, height: windowHeight } = useWindowSize();
 
-  const { gameStateReady, gridSize, events } = useGameState();
+  const { gameStateReady, gridSize, events, maxTurn } = useGameState();
   const { dusts, ships, play, pause, resetAndPlay, isPlaying, isGameFinished, currentTurn } = useGrid(events);
 
   const containerStyle = useMemo(() => {
@@ -66,6 +66,7 @@ export default function Game() {
             ships={ships}
             isGameFinished={isGameFinished}
             currentTurn={currentTurn}
+            maxTurn={maxTurn}
           />
           <Board
             boardSize={boardSize}

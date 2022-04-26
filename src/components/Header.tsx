@@ -15,6 +15,7 @@ export interface HeaderProps {
   isPlaying: boolean;
   className?: string;
   currentTurn: number;
+  maxTurn: number | undefined;
 
   style?: CSSProperties;
 }
@@ -29,6 +30,7 @@ export default function Header({
   ships,
   isGameFinished,
   currentTurn,
+  maxTurn,
 }: HeaderProps) {
   const { account, gameStateReady, score } = useGameState();
 
@@ -55,7 +57,9 @@ export default function Header({
           </div>
         </div>
         <div className="self-center flex flex-col items-end">
-          <div className="mb-4">Current turn : {currentTurn}</div>
+          <div className="mb-4">
+            Current turn : {currentTurn} / {maxTurn}
+          </div>
           <div>{renderControls()}</div>
         </div>
       </>
