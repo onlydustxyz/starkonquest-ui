@@ -230,7 +230,7 @@ export default function useGrid(events: GameEvent[]) {
   }, []);
 
   const resetAndPlay = useCallback(() => {
-    performedEventIndex.current = 0;
+    performedEventIndex.current = -1;
     play();
     setDusts([]);
     setShips([]);
