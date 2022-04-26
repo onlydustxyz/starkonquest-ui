@@ -68,7 +68,7 @@ export default function Header({
     const url = shipImages[ship.shipIndex] || shipImages[0];
 
     return (
-      <div className="flex flex-row mr-10">
+      <div key={ship.shipId} className="flex flex-row mr-10">
         <img className="mr-2" src={url} width="26px" height="26px" /> {ship.score}
       </div>
     );
