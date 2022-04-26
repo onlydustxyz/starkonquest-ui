@@ -50,6 +50,10 @@ export default function Ship({ boxSize, shipData, x, y }: ShipProps) {
     };
   }, [angle, boxSize, shipData.position.x, shipData.position.y]);
 
+  const imageSize = useMemo(() => {
+    return Math.min(120, boxSize);
+  }, [boxSize]);
+
   return (
     <HoverCard.Root>
       <div
@@ -57,7 +61,7 @@ export default function Ship({ boxSize, shipData, x, y }: ShipProps) {
         className={cn("absolute flex items-center justify-center transition-all duration-700 ease-in-out", styles.ship)}
       >
         <HoverCard.Trigger>
-          <img src={shipImage} width={`${boxSize}px`} height={`${boxSize}px`} />
+          <img src={shipImage} width={`${imageSize}px`} height={`${imageSize}px`} />
         </HoverCard.Trigger>
       </div>
       <HoverCard.Content>
