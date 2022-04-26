@@ -5,6 +5,7 @@ import Button from "./Button";
 import useGameState from "src/hooks/useGameState";
 import { CSSProperties } from "react";
 import { ShipData } from "src/hooks/useGrid";
+import shipImages from "src/assets/img/spaceships";
 
 export interface HeaderProps {
   start: () => void;
@@ -51,10 +52,7 @@ export default function Header({
           <h1 className="text-[32px] font-bold whitespace-nowrap">
             Starkonquest <sub className="text-[20px]">by OnlyDust</sub>
           </h1>
-          <div>
-            <div>Account : {account && minimizeAddress(account)}</div>
-            <div>Score : {score}</div>
-          </div>
+          <div className="flex flex-row mt-6 ml-8">{ships.map(renderShip)}</div>
         </div>
         <div className="self-center flex flex-col items-end">
           <div className="mb-4">
@@ -63,6 +61,16 @@ export default function Header({
           <div>{renderControls()}</div>
         </div>
       </>
+    );
+  }
+
+  function renderShip(ship: ShipData) {
+    const url = shipImages[ship.shipIndex] || shipImages[0];
+
+    return (
+      <div className="flex flex-row mr-10">
+        <img className="mr-2" src={url} width="26px" height="26px" /> {ship.score}
+      </div>
     );
   }
 
