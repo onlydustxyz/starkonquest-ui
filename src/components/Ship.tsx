@@ -39,7 +39,7 @@ export default function Ship({ boxSize, shipData, x, y }: ShipProps) {
 
     const rad = Math.atan2(deltaY, deltaX);
 
-    setAngle(rad * (180 / Math.PI));
+    setAngle(rad * (180 / Math.PI) + 90);
   }, [shipData.position.x, shipData.position.y, previousPosition?.x, previousPosition?.y]);
 
   const containerStyle = useMemo(() => {
