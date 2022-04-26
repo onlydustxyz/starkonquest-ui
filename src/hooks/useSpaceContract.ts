@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Abi, Contract } from "starknet";
 
 import config from "src/config";
-import abi from "src/abis/space.json";
+import abi from "src/abis/space_abi.json";
 import useProvider from "./useProvider";
 
 export default function useSpaceContract() {

@@ -3,9 +3,14 @@ export interface GamePosition {
   y: number;
 }
 
+export interface GameDirection {
+  x: number;
+  y: number;
+}
 export interface GameEventDustSpawned {
   key: "dust_spawned";
   dustId: string;
+  direction: GameDirection;
   position: GamePosition;
 }
 
@@ -43,7 +48,6 @@ export interface GameEventScoreChanged {
 
 export interface GameEventGameFinished {
   key: "game_finished";
-  winnerShipId: string;
 }
 
 export interface GameEventNewTurn {
@@ -93,6 +97,10 @@ export const testEvents: GameEvent[] = [
   {
     key: "dust_spawned",
     dustId: "1",
+    direction: {
+      x: -1,
+      y: 1,
+    },
     position: {
       x: 0,
       y: 5,
@@ -153,6 +161,10 @@ export const testEvents: GameEvent[] = [
   {
     key: "dust_spawned",
     dustId: "2",
+    direction: {
+      x: -1,
+      y: 1,
+    },
     position: {
       x: 19,
       y: 15,
@@ -213,6 +225,10 @@ export const testEvents: GameEvent[] = [
   {
     key: "dust_spawned",
     dustId: "3",
+    direction: {
+      x: 1,
+      y: 1,
+    },
     position: {
       x: 6,
       y: 1,
@@ -235,5 +251,5 @@ export const testEvents: GameEvent[] = [
       y: 16,
     },
   },
-  { key: "game_finished", winnerShipId: "1" },
+  { key: "game_finished" },
 ];

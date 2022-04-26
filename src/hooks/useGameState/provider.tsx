@@ -1,5 +1,6 @@
 import { useStarknet } from "@starknet-react/core";
 import { ReactNode, useEffect, useState } from "react";
+import { decodeEvent, TransactionReceipt } from "src/helpers/abis";
 
 import useSpaceContract from "../useSpaceContract";
 import { context as GameContext } from "./context";
@@ -18,6 +19,22 @@ export default function GameProvider({ children }: GameProviderProps) {
   const [events, setEvents] = useState<GameEvent[]>(testEvents);
 
   const [turnLoading, setTurnLoading] = useState(false);
+
+  useEffect(() => {
+    const transactionHash = "0x53798571ea52834c6334de8c10b411452ae62d56f88042e1df4fb4d7e70d86c";
+
+    (async function () {
+      const response = await fetch(
+        `https://hackathon-0.starknet.io/feeder_gateway/get_transaction_receipt?transactionHash=${transactionHash}`
+      );
+
+      const jsonResponse: TransactionReceipt = await response.json();
+
+      const decodedEvents = jsonResponse.events.map(decodeEvent).filter(a => !!a) as GameEvent[];
+
+      setEvents(decodedEvents);
+    })();
+  }, []);
 
   // const { contract: spaceContract } = useSpaceContract();
 
