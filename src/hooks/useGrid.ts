@@ -44,19 +44,25 @@ export default function useGrid(events: GameEvent[]) {
   const [ships, setShips] = useState<ShipData[]>([]);
   const [currentTurn, setCurrentTurn] = useState(0);
 
+  const lastDustId = useRef(0);
+  const dustIdByPosition = useRef(new Map<string, string>());
+
   const performedEventIndex = useRef(-1);
   const shipIndex = useRef(0);
   const playInterval = useRef<any>();
 
   const dustSpawned = useCallback(
     (gameEvent: GameEventDustSpawned) => {
+      const newDustId = getNextDustId();
+      setDustIdPosition(newDustId, gameEvent.position);
+
       setDusts(dusts => {
         return [
           ...dusts,
           {
-            dustId: gameEvent.dustId,
+            dustId: newDustId,
             position: gameEvent.position,
-            size: getOrSetSizeByDustId(gameEvent.dustId),
+            size: getOrSetSizeByDustId(newDustId),
           },
         ];
       });
@@ -66,9 +72,12 @@ export default function useGrid(events: GameEvent[]) {
 
   const dustMoved = useCallback(
     (gameEvent: GameEventDustMoved) => {
+      const dustId = getDustIdByPosition(gameEvent.previousPosition);
+      moveDustIdPosition(dustId, gameEvent.previousPosition, gameEvent.position);
+
       setDusts(dusts => {
         return dusts.map(dust => {
-          if (dust.dustId !== gameEvent.dustId) {
+          if (dust.dustId !== dustId) {
             return dust;
           }
 
@@ -85,9 +94,12 @@ export default function useGrid(events: GameEvent[]) {
   const dustDestroyed = useCallback(
     (gameEvent: GameEventDustDestroyed) => {
       setTimeout(() => {
+        const dustId = getDustIdByPosition(gameEvent.position);
+        deleteDustPosition(gameEvent.position);
+
         setDusts(dusts => {
           return dusts.filter(dust => {
-            return dust.dustId !== gameEvent.dustId;
+            return dust.dustId !== dustId;
           });
         });
       }, interval);
@@ -141,7 +153,7 @@ export default function useGrid(events: GameEvent[]) {
     }, interval);
   }, []);
 
-  const gameFinished = useCallback((gameEvent: GameEventGameFinished) => {
+  const gameFinished = useCallback(() => {
     setIsGameFinished(true);
     setIsPlaying(false);
   }, []);
@@ -180,7 +192,7 @@ export default function useGrid(events: GameEvent[]) {
           scoreChanged(newEvent);
           break;
         case "game_finished":
-          gameFinished(newEvent);
+          gameFinished();
           break;
         case "new_turn":
           newTurn(newEvent);
@@ -268,5 +280,48 @@ export default function useGrid(events: GameEvent[]) {
 
   function getNextShipIndex() {
     return shipIndex.current++;
+  }
+
+  function getDustIdByPosition(position: DustData["position"]) {
+    const key = buildPositionKey(position);
+
+    if (!dustIdByPosition.current.has(key)) {
+      throw new Error("Error, can't retrieve dust from position : " + key);
+    }
+
+    return dustIdByPosition.current.get(key) as string;
+  }
+
+  function moveDustIdPosition(
+    dustId: DustData["dustId"],
+    previousPosition: DustData["position"],
+    position: DustData["position"]
+  ) {
+    const previousKey = buildPositionKey(previousPosition);
+    const key = buildPositionKey(position);
+
+    dustIdByPosition.current.delete(previousKey);
+    dustIdByPosition.current.set(key, dustId);
+  }
+
+  function setDustIdPosition(dustId: DustData["dustId"], position: DustData["position"]) {
+    const key = buildPositionKey(position);
+
+    dustIdByPosition.current.set(key, dustId);
+  }
+
+  function deleteDustPosition(position: DustData["position"]) {
+    const key = buildPositionKey(position);
+
+    dustIdByPosition.current.delete(key);
+  }
+
+  function getNextDustId() {
+    lastDustId.current++;
+    return lastDustId.current.toString();
+  }
+
+  function buildPositionKey(position: DustData["position"]) {
+    return `${position.x}-${position.y}`;
   }
 }

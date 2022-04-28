@@ -83,14 +83,9 @@ export function decodeEvent(event: TransactionEvent) {
   return null;
 }
 
-let tmpDustIdIncrement = 0;
-
 export function decodeEventDustSpawned(event: TransactionEvent): GameEventDustSpawned {
-  tmpDustIdIncrement++;
-
   return {
     key: "dust_spawned",
-    dustId: `none-${tmpDustIdIncrement}`,
     direction: {
       x: decodeToNumber(event.data[1]),
       y: decodeToNumber(event.data[2]),
@@ -105,7 +100,6 @@ export function decodeEventDustSpawned(event: TransactionEvent): GameEventDustSp
 export function decodeEventDustMoved(event: TransactionEvent): GameEventDustMoved {
   return {
     key: "dust_moved",
-    dustId: "none",
     previousPosition: {
       x: decodeToNumber(event.data[1]),
       y: decodeToNumber(event.data[2]),
@@ -120,7 +114,6 @@ export function decodeEventDustMoved(event: TransactionEvent): GameEventDustMove
 export function decodeEventDustDestroyed(event: TransactionEvent): GameEventDustDestroyed {
   return {
     key: "dust_destroyed",
-    dustId: "none",
     position: {
       x: decodeToNumber(event.data[1]),
       y: decodeToNumber(event.data[2]),

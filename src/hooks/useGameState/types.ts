@@ -9,20 +9,17 @@ export interface GameDirection {
 }
 export interface GameEventDustSpawned {
   key: "dust_spawned";
-  dustId: string;
   direction: GameDirection;
   position: GamePosition;
 }
 
 export interface GameEventDustDestroyed {
   key: "dust_destroyed";
-  dustId: string;
   position: GamePosition;
 }
 
 export interface GameEventDustMoved {
   key: "dust_moved";
-  dustId: string;
   previousPosition: GamePosition;
   position: GamePosition;
 }
