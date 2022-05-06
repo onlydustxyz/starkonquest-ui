@@ -1,6 +1,5 @@
 import cn from "classnames";
 
-import { minimizeAddress } from "src/utils/web3";
 import Button from "./Button";
 import useGameState from "src/hooks/useGameState";
 import { CSSProperties } from "react";
@@ -33,7 +32,7 @@ export default function Header({
   currentTurn,
   maxTurn,
 }: HeaderProps) {
-  const { account, gameStateReady, score } = useGameState();
+  const { gameStateReady } = useGameState();
 
   return (
     <div style={style} className={cn("px-4 bg-opacity-60 rounded-lg text-snow flex flex-row", className)}>

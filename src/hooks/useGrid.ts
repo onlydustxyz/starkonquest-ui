@@ -5,7 +5,6 @@ import {
   GameEventDustDestroyed,
   GameEventDustMoved,
   GameEventDustSpawned,
-  GameEventGameFinished,
   GameEventNewTurn,
   GameEventScoreChanged,
   GameEventShipAdded,
@@ -49,7 +48,7 @@ export default function useGrid(events: GameEvent[]) {
 
   const performedEventIndex = useRef(-1);
   const shipIndex = useRef(0);
-  const playInterval = useRef<any>();
+  const playInterval = useRef<ReturnType<typeof setInterval>>();
 
   const dustSpawned = useCallback(
     (gameEvent: GameEventDustSpawned) => {
@@ -228,7 +227,7 @@ export default function useGrid(events: GameEvent[]) {
     return () => {
       if (playInterval.current) {
         clearInterval(playInterval.current);
-        playInterval.current = null;
+        playInterval.current = undefined;
       }
     };
   }, [performNextMove, isPlaying]);

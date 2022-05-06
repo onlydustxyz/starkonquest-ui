@@ -162,7 +162,7 @@ export function decodeEventNewTurn(event: TransactionEvent): GameEventNewTurn {
   };
 }
 
-export function decodeEventGameFinished(event: TransactionEvent): GameEventGameFinished {
+export function decodeEventGameFinished(): GameEventGameFinished {
   return {
     key: "game_finished",
   };
