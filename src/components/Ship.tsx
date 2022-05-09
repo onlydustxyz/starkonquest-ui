@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { usePrevious } from "react-use";
 import cn from "classnames";
 import * as HoverCard from "@radix-ui/react-hover-card";
@@ -16,22 +16,22 @@ export interface ShipProps {
 }
 
 export default function Ship({ boxSize, shipData, x, y }: ShipProps) {
-  const previousPosition = usePrevious({ x: shipData.position.x, y: shipData.position.y });
-  const [angle, setAngle] = useState(0);
+  const previousPositionX = usePrevious(shipData.position.x);
+  const previousPositionY = usePrevious(shipData.position.y);
 
   const shipImage = useMemo(() => {
     return ships[shipData.shipIndex] || ships[0];
   }, [shipData.shipIndex]);
 
-  useEffect(() => {
-    const prevX = previousPosition?.x || 0;
-    const prevY = previousPosition?.y || 0;
+  const angle = useMemo(() => {
+    const prevX = previousPositionX || 0;
+    const prevY = previousPositionY || 0;
 
     const newX = shipData.position.x;
     const newY = shipData.position.y;
 
     if (newX === prevX && newY === prevY) {
-      return;
+      return 0;
     }
 
     const deltaX = newX - prevX;
@@ -39,8 +39,8 @@ export default function Ship({ boxSize, shipData, x, y }: ShipProps) {
 
     const rad = Math.atan2(deltaY, deltaX);
 
-    setAngle(rad * (180 / Math.PI) + 90);
-  }, [shipData.position.x, shipData.position.y, previousPosition?.x, previousPosition?.y]);
+    return rad * (180 / Math.PI) + 90;
+  }, [shipData.position.x, shipData.position.y]);
 
   const containerStyle = useMemo(() => {
     return {

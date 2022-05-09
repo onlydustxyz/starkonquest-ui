@@ -1,5 +1,5 @@
 import { useStarknet } from "@starknet-react/core";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { decodeEvent, getFunctionNameFromKey, TransactionReceipt } from "src/helpers/abis";
 import { decodeToNumber } from "src/utils/felt";
 
@@ -17,7 +17,6 @@ export default function GameProvider({ children, transactionHash }: GameProvider
 
   const [gridSize, setGridSize] = useState<number>();
   const [maxTurn, setMaxTurn] = useState<number>();
-  const [gameStateReady, setGameStateReady] = useState(false);
 
   const [events, setEvents] = useState<GameEvent[]>([]);
 
@@ -62,10 +61,8 @@ export default function GameProvider({ children, transactionHash }: GameProvider
 
   const score = 0;
 
-  useEffect(() => {
-    if (gridSize && maxTurn) {
-      setGameStateReady(true);
-    }
+  const gameStateReady = useMemo(() => {
+    return !!gridSize && !!maxTurn;
   }, [gridSize, maxTurn]);
 
   return (
