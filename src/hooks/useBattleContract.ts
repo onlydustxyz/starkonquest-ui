@@ -2,10 +2,10 @@ import { useMemo } from "react";
 import { Abi, Contract } from "starknet";
 
 import config from "src/config";
-import abi from "src/abis/dust_abi.json";
+import abi from "src/abis/battle.json";
 import useProvider from "./useProvider";
 
-export default function useDustContract() {
+export default function useSpaceContract() {
   const { provider } = useProvider();
 
   const contract = useMemo(() => {
@@ -13,7 +13,7 @@ export default function useDustContract() {
       return undefined;
     }
 
-    return new Contract(abi as Abi, config.DUST_ADDRESS, provider);
+    return new Contract(abi as Abi, config.BATTLE_ADDRESS, provider);
   }, [provider]);
 
   return { contract };

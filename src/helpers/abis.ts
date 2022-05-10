@@ -1,4 +1,4 @@
-import spaceAbi from "src/abis/space_abi.json";
+import spaceAbi from "src/abis/battle.json";
 import {
   GameEvent,
   GameEventDustDestroyed,
