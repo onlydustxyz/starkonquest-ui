@@ -8,7 +8,7 @@ const GameScreen = lazy(() => import("src/screens/Game"));
 
 export default function App() {
   const connectors = [new InjectedConnector()];
-  const defaultProvider = new Provider({ baseUrl: "https://hackathon-0.starknet.io" });
+  const defaultProvider = new Provider({ baseUrl: "https://alpha4.starknet.io" });
 
   return (
     <StarknetProvider connectors={connectors} defaultProvider={defaultProvider} autoConnect>

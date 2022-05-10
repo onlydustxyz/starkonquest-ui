@@ -36,12 +36,8 @@ export default function GameProvider({ children, transactionHash }: GameProvider
       }
 
       const [transactionReceiptResponse, transactionTraceResponse] = await Promise.all([
-        fetch(
-          `https://hackathon-0.starknet.io/feeder_gateway/get_transaction_receipt?transactionHash=${transactionHash}`
-        ),
-        fetch(
-          `https://hackathon-0.starknet.io/feeder_gateway/get_transaction_trace?transactionHash=${transactionHash}`
-        ),
+        fetch(`https://alpha4.starknet.io/feeder_gateway/get_transaction_receipt?transactionHash=${transactionHash}`),
+        fetch(`https://alpha4.starknet.io/feeder_gateway/get_transaction_trace?transactionHash=${transactionHash}`),
       ]);
 
       const jsonReceipt: TransactionReceipt = await transactionReceiptResponse.json();
