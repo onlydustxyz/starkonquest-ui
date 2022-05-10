@@ -1,14 +1,15 @@
 import { InjectedConnector, StarknetProvider } from "@starknet-react/core";
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
 import { Provider } from "starknet";
+
+import config from "src/config";
 
 const GameScreen = lazy(() => import("src/screens/Game"));
 
 export default function App() {
   const connectors = [new InjectedConnector()];
-  const defaultProvider = new Provider({ baseUrl: "https://alpha4.starknet.io" });
+  const defaultProvider = new Provider({ baseUrl: config.PROVIDER_HOSTNAME });
 
   return (
     <StarknetProvider connectors={connectors} defaultProvider={defaultProvider} autoConnect>
