@@ -1,7 +1,9 @@
 import { useStarknet } from "@starknet-react/core";
 import { ReactNode, useEffect, useMemo, useState } from "react";
+
 import { decodeEvent, getFunctionNameFromKey, TransactionReceipt } from "src/helpers/abis";
 import { decodeToNumber } from "src/utils/felt";
+import config from "src/config";
 
 import { context as GameContext } from "./context";
 import { GameEvent } from "./types";
@@ -36,8 +38,8 @@ export default function GameProvider({ children, transactionHash }: GameProvider
       }
 
       const [transactionReceiptResponse, transactionTraceResponse] = await Promise.all([
-        fetch(`https://alpha4.starknet.io/feeder_gateway/get_transaction_receipt?transactionHash=${transactionHash}`),
-        fetch(`https://alpha4.starknet.io/feeder_gateway/get_transaction_trace?transactionHash=${transactionHash}`),
+        fetch(`${config.PROVIDER_HOSTNAME}/feeder_gateway/get_transaction_receipt?transactionHash=${transactionHash}`),
+        fetch(`${config.PROVIDER_HOSTNAME}/feeder_gateway/get_transaction_trace?transactionHash=${transactionHash}`),
       ]);
 
       const jsonReceipt: TransactionReceipt = await transactionReceiptResponse.json();
