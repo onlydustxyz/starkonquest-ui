@@ -47,39 +47,33 @@ export default function Game() {
     };
   }, []);
 
-  return (
-    <div className="w-screen h-screen flex items-center justify-center bg-orange-400" style={containerStyle}>
-      {renderGame()}
-    </div>
-  );
-
-  function renderGame() {
-    if (gameStateReady) {
-      return (
-        <div>
-          <Header
-            style={headerStyle}
-            start={play}
-            pause={pause}
-            replay={resetAndPlay}
-            isPlaying={isPlaying}
-            ships={ships}
-            isGameFinished={isGameFinished}
-            currentTurn={currentTurn}
-            maxTurn={maxTurn}
-          />
-          <Board
-            boardSize={boardSize}
-            style={boardStyle}
-            gridSize={gridSize as number}
-            dusts={dusts}
-            ships={ships}
-            isGameFinished={isGameFinished}
-          />
-        </div>
-      );
-    }
-
+  if (!gameStateReady) {
     return <Loader message={!gameStateReady ? "Loading game state" : "Loading grid"} />;
   }
+
+  return (
+    <div className="w-screen h-screen flex items-center justify-center bg-orange-400" style={containerStyle}>
+      <div>
+        <Header
+          style={headerStyle}
+          start={play}
+          pause={pause}
+          replay={resetAndPlay}
+          isPlaying={isPlaying}
+          ships={ships}
+          isGameFinished={isGameFinished}
+          currentTurn={currentTurn}
+          maxTurn={maxTurn}
+        />
+        <Board
+          boardSize={boardSize}
+          style={boardStyle}
+          gridSize={gridSize as number}
+          dusts={dusts}
+          ships={ships}
+          isGameFinished={isGameFinished}
+        />
+      </div>
+    </div>
+  );
 }
