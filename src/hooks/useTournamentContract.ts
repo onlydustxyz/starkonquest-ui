@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Abi, Contract } from "starknet";
 
-import abi from "src/abis/battle.json";
+import abi from "src/abis/tournament.json";
 import useProvider from "./useProvider";
 
 export default function useTournamentContract(tournamentContractAddress: string) {

@@ -6,6 +6,7 @@ import { Provider } from "starknet";
 import config from "src/config";
 
 const GameScreen = lazy(() => import("src/screens/Game"));
+const TournamentScreen = lazy(() => import("src/screens/Tournament"));
 
 export default function App() {
   const connectors = [new InjectedConnector()];
@@ -20,6 +21,14 @@ export default function App() {
             element={
               <Suspense fallback={<>...</>}>
                 <GameScreen />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/tournament/:tournamentAddress"
+            element={
+              <Suspense fallback={<>...</>}>
+                <TournamentScreen />
               </Suspense>
             }
           />

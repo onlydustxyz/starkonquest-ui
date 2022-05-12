@@ -1,31 +1,39 @@
+import BN from "bn.js";
 import { useEffect, useState } from "react";
 
 import useTournamentContract from "src/hooks/useTournamentContract";
 import { callContractView } from "./library";
 
+export interface TournamentData {
+  tournamentId: number;
+  tournamentName: string;
+  rewardTokenAddress: string;
+  rewardTotalAmount: BN;
+  shipCountPerBattle: number;
+  requiredTotalShipCount: number;
+  shipCount: number;
+  gridSize: number;
+  maxDust: number;
+}
+
 export default function useTournament(tournamentHash: string) {
   const tournamentContract = useTournamentContract(tournamentHash);
 
-  const [tournamentId, setTournamentId] = useState<number>();
-  const [tournamentName, setTournamentName] = useState<string>();
-  const [rewardTokenAddress, setRewardTokenAddress] = useState<string>();
-  const [rewardTotalAmount, setRewardTotalAmount] = useState<number>();
-  const [shipCountPerBattle, setShipCountPerBattle] = useState<number>();
-  const [requiredTotalShipCount, setRequiredTotalShipCount] = useState<number>();
-  const [gridSize, setGridSize] = useState<number>();
-  const [maxDust, setMaxDust] = useState<number>();
+  const [data, setData] = useState<TournamentData>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async function () {
       const [
-        fetchedTournamentId,
-        fetchedTournamentName,
-        fetchedRewardTokenAddress,
-        fetchedRewardTotalAmount,
-        fetchedShipCountPerBattle,
-        fetchedRequiredTotalShipCount,
-        fetchedGridSize,
-        fetchedMaxDust,
+        tournamentId,
+        tournamentName,
+        rewardTokenAddress,
+        rewardTotalAmount,
+        shipCountPerBattle,
+        requiredTotalShipCount,
+        shipCount,
+        gridSize,
+        maxDust,
       ] = await Promise.all([
         callContractView(tournamentContract, "tournament_id"),
         callContractView(tournamentContract, "tournament_name"),
@@ -33,29 +41,28 @@ export default function useTournament(tournamentHash: string) {
         callContractView(tournamentContract, "reward_total_amount"),
         callContractView(tournamentContract, "ship_count_per_battle"),
         callContractView(tournamentContract, "required_total_ship_count"),
+        callContractView(tournamentContract, "ship_count"),
         callContractView(tournamentContract, "grid_size"),
         callContractView(tournamentContract, "max_dust"),
       ]);
 
-      setTournamentId(fetchedTournamentId);
-      setTournamentName(fetchedTournamentName);
-      setRewardTokenAddress(fetchedRewardTokenAddress);
-      setRewardTotalAmount(fetchedRewardTotalAmount);
-      setShipCountPerBattle(fetchedShipCountPerBattle);
-      setRequiredTotalShipCount(fetchedRequiredTotalShipCount);
-      setGridSize(fetchedGridSize);
-      setMaxDust(fetchedMaxDust);
+      setData({
+        tournamentId,
+        tournamentName,
+        rewardTokenAddress,
+        rewardTotalAmount,
+        shipCountPerBattle,
+        requiredTotalShipCount,
+        shipCount,
+        gridSize,
+        maxDust,
+      });
+      setLoading(false);
     })();
-  }, [
-    tournamentContract,
-    tournamentName,
-    rewardTokenAddress,
-    rewardTotalAmount,
-    shipCountPerBattle,
-    requiredTotalShipCount,
-    gridSize,
-    maxDust,
-  ]);
+  }, [tournamentContract]);
 
-  return tournamentId;
+  return {
+    data,
+    loading,
+  };
 }
