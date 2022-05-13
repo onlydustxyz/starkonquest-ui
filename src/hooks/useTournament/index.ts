@@ -2,7 +2,7 @@ import BN from "bn.js";
 import { useEffect, useState } from "react";
 
 import useTournamentContract from "src/hooks/useTournamentContract";
-import { callContractView } from "./library";
+import { callContractView, TournamentStage } from "./library";
 
 export interface TournamentData {
   tournamentId: number;
@@ -14,6 +14,7 @@ export interface TournamentData {
   shipCount: number;
   gridSize: number;
   maxDust: number;
+  stage: TournamentStage;
 }
 
 export default function useTournament(tournamentHash: string) {
@@ -34,6 +35,7 @@ export default function useTournament(tournamentHash: string) {
         shipCount,
         gridSize,
         maxDust,
+        stage,
       ] = await Promise.all([
         callContractView(tournamentContract, "tournament_id"),
         callContractView(tournamentContract, "tournament_name"),
@@ -44,6 +46,7 @@ export default function useTournament(tournamentHash: string) {
         callContractView(tournamentContract, "ship_count"),
         callContractView(tournamentContract, "grid_size"),
         callContractView(tournamentContract, "max_dust"),
+        callContractView(tournamentContract, "stage"),
       ]);
 
       setData({
@@ -56,6 +59,7 @@ export default function useTournament(tournamentHash: string) {
         shipCount,
         gridSize,
         maxDust,
+        stage,
       });
       setLoading(false);
     })();

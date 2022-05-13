@@ -23,9 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-src/abis/*
-!src/abis/.gitkeep
-
 .env
 .env.*
 !.env.example

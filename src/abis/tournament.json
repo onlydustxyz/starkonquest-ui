@@ -1,0 +1,348 @@
+[
+  {
+    "members": [
+      {
+        "name": "low",
+        "offset": 0,
+        "type": "felt"
+      },
+      {
+        "name": "high",
+        "offset": 1,
+        "type": "felt"
+      }
+    ],
+    "name": "Uint256",
+    "size": 2,
+    "type": "struct"
+  },
+  {
+    "inputs": [],
+    "name": "tournament_id",
+    "outputs": [
+      {
+        "name": "tournament_id",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tournament_name",
+    "outputs": [
+      {
+        "name": "tournament_name",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "reward_token_address",
+    "outputs": [
+      {
+        "name": "reward_token_address",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "boarding_pass_token_address",
+    "outputs": [
+      {
+        "name": "boarding_pass_token_address",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rand_contract_address",
+    "outputs": [
+      {
+        "name": "rand_contract_address",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "stage",
+    "outputs": [
+      {
+        "name": "stage",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "reward_total_amount",
+    "outputs": [
+      {
+        "name": "reward_total_amount",
+        "type": "Uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ship_count_per_battle",
+    "outputs": [
+      {
+        "name": "ship_count_per_battle",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "required_total_ship_count",
+    "outputs": [
+      {
+        "name": "required_total_ship_count",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "grid_size",
+    "outputs": [
+      {
+        "name": "grid_size",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "turn_count",
+    "outputs": [
+      {
+        "name": "turn_count",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "max_dust",
+    "outputs": [
+      {
+        "name": "max_dust",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ship_count",
+    "outputs": [
+      {
+        "name": "ship_count",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "player_address",
+        "type": "felt"
+      }
+    ],
+    "name": "player_ship",
+    "outputs": [
+      {
+        "name": "player_ship",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "ship_address",
+        "type": "felt"
+      }
+    ],
+    "name": "ship_player",
+    "outputs": [
+      {
+        "name": "ship_player",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "player_address",
+        "type": "felt"
+      }
+    ],
+    "name": "player_score",
+    "outputs": [
+      {
+        "name": "player_score",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "played_battle_count",
+    "outputs": [
+      {
+        "name": "played_battle_count",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "owner",
+        "type": "felt"
+      },
+      {
+        "name": "tournament_id",
+        "type": "felt"
+      },
+      {
+        "name": "tournament_name",
+        "type": "felt"
+      },
+      {
+        "name": "reward_token_address",
+        "type": "felt"
+      },
+      {
+        "name": "boarding_pass_token_address",
+        "type": "felt"
+      },
+      {
+        "name": "rand_contract_address",
+        "type": "felt"
+      },
+      {
+        "name": "battle_contract_address",
+        "type": "felt"
+      },
+      {
+        "name": "ships_per_battle",
+        "type": "felt"
+      },
+      {
+        "name": "required_total_ship_count",
+        "type": "felt"
+      },
+      {
+        "name": "grid_size",
+        "type": "felt"
+      },
+      {
+        "name": "turn_count",
+        "type": "felt"
+      },
+      {
+        "name": "max_dust",
+        "type": "felt"
+      }
+    ],
+    "name": "constructor",
+    "outputs": [],
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "open_registrations",
+    "outputs": [
+      {
+        "name": "success",
+        "type": "felt"
+      }
+    ],
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "close_registrations",
+    "outputs": [
+      {
+        "name": "success",
+        "type": "felt"
+      }
+    ],
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "start",
+    "outputs": [
+      {
+        "name": "success",
+        "type": "felt"
+      }
+    ],
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "play_next_battle",
+    "outputs": [],
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "ship_address",
+        "type": "felt"
+      }
+    ],
+    "name": "register",
+    "outputs": [
+      {
+        "name": "success",
+        "type": "felt"
+      }
+    ],
+    "type": "function"
+  }
+]

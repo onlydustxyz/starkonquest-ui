@@ -2,7 +2,8 @@ import { useParams } from "react-router-dom";
 
 import ContentContainer from "src/components/ContentContainer";
 import Loader from "src/components/Loader";
-import useTournament from "src/hooks/useTournament";
+import useTournament, { TournamentData } from "src/hooks/useTournament";
+import { TournamentStage } from "src/hooks/useTournament/library";
 import { minimizeAddress } from "src/utils/web3";
 
 export default function Test() {
@@ -26,6 +27,7 @@ export default function Test() {
           {data?.shipCount}/{data?.requiredTotalShipCount}
         </div>
       </div>
+      <div className="mt-2 text-lg font-bold">{renderStage((data as TournamentData).stage)}</div>
       <div className="flex-grow mt-8">
         <div className="font-bold text-xl">Games details</div>
         <ul>
@@ -37,4 +39,19 @@ export default function Test() {
       <div className="self-end">Reward {data?.rewardTotalAmount?.toString()}</div>
     </ContentContainer>
   );
+}
+
+function renderStage(stage: TournamentData["stage"]) {
+  switch (stage) {
+    case TournamentStage.CREATED:
+      return "Created";
+    case TournamentStage.REGISTRATIONS_OPEN:
+      return "Registration opened";
+    case TournamentStage.REGISTRATIONS_CLOSED:
+      return "Registrations closed";
+    case TournamentStage.STARTED:
+      return "Started";
+    case TournamentStage.FINISHED:
+      return "Finished";
+  }
 }

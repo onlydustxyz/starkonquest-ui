@@ -16,7 +16,16 @@ const contractViewFormatter = {
   ship_count: formatNumber,
   grid_size: formatNumber,
   max_dust: formatNumber,
+  stage: formatStage,
 };
+
+export enum TournamentStage {
+  CREATED = 1,
+  REGISTRATIONS_OPEN = 2,
+  REGISTRATIONS_CLOSED = 3,
+  STARTED = 4,
+  FINISHED = 5,
+}
 
 export type ContractViewName = keyof typeof contractViewFormatter;
 
@@ -45,4 +54,8 @@ function formatUint256(result: Unpromise<ReturnType<Contract["call"]>>) {
 
 function formatAddress(result: Unpromise<ReturnType<Contract["call"]>>) {
   return addHexPrefix(result[0].toString(16));
+}
+
+function formatStage(result: Unpromise<ReturnType<Contract["call"]>>) {
+  return formatNumber(result) as TournamentStage;
 }
