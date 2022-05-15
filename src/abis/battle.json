@@ -1,0 +1,216 @@
+[
+  {
+    "members": [
+      {
+        "name": "x",
+        "offset": 0,
+        "type": "felt"
+      },
+      {
+        "name": "y",
+        "offset": 1,
+        "type": "felt"
+      }
+    ],
+    "name": "Vector2",
+    "size": 2,
+    "type": "struct"
+  },
+  {
+    "members": [
+      {
+        "name": "address",
+        "offset": 0,
+        "type": "felt"
+      },
+      {
+        "name": "position",
+        "offset": 1,
+        "type": "Vector2"
+      }
+    ],
+    "name": "ShipInit",
+    "size": 3,
+    "type": "struct"
+  },
+  {
+    "data": [
+      {
+        "name": "space_contract_address",
+        "type": "felt"
+      },
+      {
+        "name": "previous_position",
+        "type": "Vector2"
+      },
+      {
+        "name": "position",
+        "type": "Vector2"
+      }
+    ],
+    "keys": [],
+    "name": "dust_moved",
+    "type": "event"
+  },
+  {
+    "data": [
+      {
+        "name": "space_contract_address",
+        "type": "felt"
+      },
+      {
+        "name": "ship_id",
+        "type": "felt"
+      },
+      {
+        "name": "previous_position",
+        "type": "Vector2"
+      },
+      {
+        "name": "position",
+        "type": "Vector2"
+      }
+    ],
+    "keys": [],
+    "name": "ship_moved",
+    "type": "event"
+  },
+  {
+    "data": [
+      {
+        "name": "battle_contract_address",
+        "type": "felt"
+      },
+      {
+        "name": "ship_id",
+        "type": "felt"
+      },
+      {
+        "name": "position",
+        "type": "Vector2"
+      }
+    ],
+    "keys": [],
+    "name": "ship_added",
+    "type": "event"
+  },
+  {
+    "data": [
+      {
+        "name": "battle_contract_address",
+        "type": "felt"
+      },
+      {
+        "name": "direction",
+        "type": "Vector2"
+      },
+      {
+        "name": "position",
+        "type": "Vector2"
+      }
+    ],
+    "keys": [],
+    "name": "dust_spawned",
+    "type": "event"
+  },
+  {
+    "data": [
+      {
+        "name": "battle_contract_address",
+        "type": "felt"
+      },
+      {
+        "name": "position",
+        "type": "Vector2"
+      }
+    ],
+    "keys": [],
+    "name": "dust_destroyed",
+    "type": "event"
+  },
+  {
+    "data": [
+      {
+        "name": "battle_contract_address",
+        "type": "felt"
+      },
+      {
+        "name": "turn_number",
+        "type": "felt"
+      }
+    ],
+    "keys": [],
+    "name": "new_turn",
+    "type": "event"
+  },
+  {
+    "data": [
+      {
+        "name": "battle_contract_address",
+        "type": "felt"
+      }
+    ],
+    "keys": [],
+    "name": "game_finished",
+    "type": "event"
+  },
+  {
+    "data": [
+      {
+        "name": "battle_contract_address",
+        "type": "felt"
+      },
+      {
+        "name": "ship_id",
+        "type": "felt"
+      },
+      {
+        "name": "score",
+        "type": "felt"
+      }
+    ],
+    "keys": [],
+    "name": "score_changed",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "name": "rand_contract_address",
+        "type": "felt"
+      },
+      {
+        "name": "size",
+        "type": "felt"
+      },
+      {
+        "name": "turn_count",
+        "type": "felt"
+      },
+      {
+        "name": "max_dust",
+        "type": "felt"
+      },
+      {
+        "name": "ships_len",
+        "type": "felt"
+      },
+      {
+        "name": "ships",
+        "type": "ShipInit*"
+      }
+    ],
+    "name": "play_game",
+    "outputs": [
+      {
+        "name": "scores_len",
+        "type": "felt"
+      },
+      {
+        "name": "scores",
+        "type": "felt*"
+      }
+    ],
+    "type": "function"
+  }
+]
