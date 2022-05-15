@@ -7,6 +7,7 @@ import { callContractView, TournamentStage } from "./library";
 export interface TournamentData {
   tournamentId: number;
   tournamentName: string;
+  tournamentAddress: string;
   rewardTokenAddress: string;
   rewardTotalAmount: BN;
   shipCountPerBattle: number;
@@ -17,8 +18,8 @@ export interface TournamentData {
   stage: TournamentStage;
 }
 
-export default function useTournament(tournamentHash: string) {
-  const tournamentContract = useTournamentContract(tournamentHash);
+export default function useTournament(tournamentAddress: string) {
+  const tournamentContract = useTournamentContract(tournamentAddress);
 
   const [data, setData] = useState<TournamentData>();
   const [loading, setLoading] = useState(true);
@@ -52,6 +53,7 @@ export default function useTournament(tournamentHash: string) {
       setData({
         tournamentId,
         tournamentName,
+        tournamentAddress,
         rewardTokenAddress,
         rewardTotalAmount,
         shipCountPerBattle,

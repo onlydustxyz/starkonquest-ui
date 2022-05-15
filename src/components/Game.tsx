@@ -1,5 +1,6 @@
-import { useMemo } from "react";
-import { useWindowSize } from "react-use";
+import { useEffect, useMemo } from "react";
+import { useElementSize, useWindowSize } from "usehooks-ts";
+import cn from "classnames";
 
 import Board from "src/components/Board";
 import Header from "src/components/Header";
@@ -7,55 +8,39 @@ import Loader from "src/components/Loader";
 import useGameState from "src/hooks/useGameState";
 import useGrid from "src/hooks/useGrid";
 
-const headerHeight = 122;
-const gapSize = 16;
+const BOARD_MIN_SIZE = 260;
+export interface GameProps {
+  hideHeader?: boolean;
+  className?: string;
+}
 
-export default function Game() {
-  const { width: windowWidth, height: windowHeight } = useWindowSize();
+export default function Game({ className, hideHeader = false }: GameProps) {
+  const { width: windowWidth } = useWindowSize();
+
+  const [containerRef, { height: containerHeight }] = useElementSize();
 
   const { gameStateReady, gridSize, events, maxTurn } = useGameState();
   const { dusts, ships, play, pause, resetAndPlay, isPlaying, isGameFinished, currentTurn } = useGrid(events);
 
-  const containerStyle = useMemo(() => {
-    const leftPadding = Math.floor(headerHeight / 2);
-
-    return {
-      paddingLeft: leftPadding,
-      paddingRight: headerHeight - leftPadding,
-    };
-  }, [headerHeight]);
+  useEffect(() => {
+    if (hideHeader) {
+      play();
+    }
+  }, [hideHeader]);
 
   const boardSize = useMemo(() => {
-    const possibleSize = Math.min(windowHeight - headerHeight, windowWidth);
-
-    return possibleSize - 3 * gapSize;
-  }, [windowHeight, windowWidth]);
-
-  const boardStyle = useMemo(() => {
-    return {
-      height: `${boardSize}px`,
-      width: `${boardSize}px`,
-      marginBottom: `${gapSize}px`,
-    };
-  }, [boardSize]);
-
-  const headerStyle = useMemo(() => {
-    return {
-      marginBottom: `${gapSize}px`,
-      marginTop: `${gapSize}px`,
-      height: headerHeight,
-    };
-  }, []);
+    return Math.max(Math.min(windowWidth - 32, containerHeight), BOARD_MIN_SIZE);
+  }, [containerHeight, windowWidth]);
 
   if (!gameStateReady) {
     return <Loader message={!gameStateReady ? "Loading game state" : "Loading grid"} />;
   }
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-orange-400" style={containerStyle}>
-      <div>
+    <div className={cn(className, "h-screen flex flex-col items-center justify-center bg-orange-400")}>
+      {!hideHeader && (
         <Header
-          style={headerStyle}
+          className="my-4"
           start={play}
           pause={pause}
           replay={resetAndPlay}
@@ -65,15 +50,16 @@ export default function Game() {
           currentTurn={currentTurn}
           maxTurn={maxTurn}
         />
-        <Board
-          boardSize={boardSize}
-          style={boardStyle}
-          gridSize={gridSize as number}
-          dusts={dusts}
-          ships={ships}
-          isGameFinished={isGameFinished}
-        />
-      </div>
+      )}
+      <Board
+        className="flex-grow mt-4 mb-8 mx-4"
+        ref={containerRef}
+        boardSize={boardSize}
+        gridSize={gridSize as number}
+        dusts={dusts}
+        ships={ships}
+        isGameFinished={isGameFinished}
+      />
     </div>
   );
 }
