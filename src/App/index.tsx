@@ -7,6 +7,7 @@ import config from "src/config";
 
 const GameScreen = lazy(() => import("src/screens/Game"));
 const TournamentScreen = lazy(() => import("src/screens/Tournament"));
+const RegisterShipScreen = lazy(() => import("src/screens/RegisterShip"));
 
 export default function App() {
   const connectors = [new InjectedConnector()];
@@ -29,6 +30,14 @@ export default function App() {
             element={
               <Suspense fallback={<>...</>}>
                 <TournamentScreen />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/tournament/:tournamentAddress/register"
+            element={
+              <Suspense fallback={<>...</>}>
+                <RegisterShipScreen />
               </Suspense>
             }
           />
