@@ -22,3 +22,9 @@ body,
   background-image: -webkit-image-set(url("src/assets/img/default.jpg") 1x, url("src/assets/img/default@2x.jpg") 2x);
   background-image: image-set(url("src/assets/img/default.jpg") 1x, url("src/assets/img/default@2x.jpg") 2x);
 }
+
+input,
+textarea,
+select {
+  @apply bg-snow/20 border-2 border-solid border-light-blue/20 rounded px-2;
+}

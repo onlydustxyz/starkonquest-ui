@@ -17,6 +17,7 @@ const contractViewFormatter = {
   grid_size: formatNumber,
   max_dust: formatNumber,
   stage: formatStage,
+  player_ship: formatAddress,
 };
 
 export enum TournamentStage {
@@ -33,9 +34,10 @@ type ReturnTypeFormatter<T extends ContractViewName> = ReturnType<typeof contrac
 
 export async function callContractView<T extends ContractViewName>(
   contract: Contract,
-  viewName: T
+  viewName: T,
+  args: unknown[] = []
 ): Promise<ReturnTypeFormatter<T>> {
-  const result = await contract.call(viewName);
+  const result = await contract.call(viewName, args);
 
   return contractViewFormatter[viewName](result) as ReturnTypeFormatter<T>;
 }

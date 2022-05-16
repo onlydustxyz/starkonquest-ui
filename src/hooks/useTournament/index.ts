@@ -1,3 +1,4 @@
+import { useStarknet } from "@starknet-react/core";
 import BN from "bn.js";
 import { useEffect, useState } from "react";
 
@@ -16,10 +17,12 @@ export interface TournamentData {
   gridSize: number;
   maxDust: number;
   stage: TournamentStage;
+  playerShip: string | undefined;
 }
 
 export default function useTournament(tournamentAddress: string) {
   const tournamentContract = useTournamentContract(tournamentAddress);
+  const { account } = useStarknet();
 
   const [data, setData] = useState<TournamentData>();
   const [loading, setLoading] = useState(true);
@@ -37,6 +40,7 @@ export default function useTournament(tournamentAddress: string) {
         gridSize,
         maxDust,
         stage,
+        playerShip,
       ] = await Promise.all([
         callContractView(tournamentContract, "tournament_id"),
         callContractView(tournamentContract, "tournament_name"),
@@ -48,7 +52,10 @@ export default function useTournament(tournamentAddress: string) {
         callContractView(tournamentContract, "grid_size"),
         callContractView(tournamentContract, "max_dust"),
         callContractView(tournamentContract, "stage"),
+        account ? callContractView(tournamentContract, "player_ship", [account]) : Promise.resolve(undefined),
       ]);
+
+      console.log(playerShip);
 
       setData({
         tournamentId,
@@ -62,6 +69,7 @@ export default function useTournament(tournamentAddress: string) {
         gridSize,
         maxDust,
         stage,
+        playerShip,
       });
       setLoading(false);
     })();
