@@ -3,11 +3,11 @@
 }
 
 .primary {
-  @apply bg-space-blue border-[4px];
+  @apply bg-space-blue border-[4px] p-8;
 }
 
 .secondary {
-  @apply bg-space-purple bg-opacity-20 border-[1px];
+  @apply bg-space-purple bg-opacity-20 border-[1px] py-4 px-8;
 }
 
 .primary::after {

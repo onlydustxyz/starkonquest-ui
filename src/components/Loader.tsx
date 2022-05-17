@@ -7,7 +7,7 @@ export interface LoaderProps {
 
 export default function Loader({ message }: LoaderProps) {
   return (
-    <div className="absolute w-screen h-screen flex flex-row items-center justify-center">
+    <div className="absolute top-0 w-screen h-screen flex flex-row items-center justify-center">
       <div className="relative h-[350px] w-[350px]">
         <div className="absolute z-20 w-full h-full flex flex-col items-center justify-center">
           <span className="text-white text-[36px] uppercase text-center mx-8">{message ?? "Loading"}</span>
