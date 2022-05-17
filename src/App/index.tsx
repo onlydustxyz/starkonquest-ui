@@ -4,6 +4,7 @@ import { Provider } from "starknet";
 import config from "src/config";
 
 import AppRoutes from "./Routes";
+import Layout from "./Layout";
 
 export default function App() {
   const connectors = [new InjectedConnector()];
@@ -11,7 +12,9 @@ export default function App() {
 
   return (
     <StarknetProvider connectors={connectors} defaultProvider={defaultProvider} autoConnect>
-      <AppRoutes />
+      <Layout>
+        <AppRoutes />
+      </Layout>
     </StarknetProvider>
   );
 }
