@@ -22,7 +22,7 @@ export default function TournamentDetails({ className, tournamentData }: Tournam
 
   return (
     <ContentContainer className={cn(className, "text-white flex flex-col")}>
-      <div className="flex flex-row items-center justify-end mb-8">
+      <div className="flex flex-row items-center justify-end mb-8 h-[72px]">
         <span className="text-3xl fonbt-bold flex-grow">{tournamentData.tournamentName}</span>
         {renderStage()}
       </div>
@@ -44,7 +44,7 @@ export default function TournamentDetails({ className, tournamentData }: Tournam
   );
 
   function renderStage() {
-    if (tournamentData.stage === TournamentStage.REGISTRATIONS_OPEN) {
+    if (tournamentData.stage === TournamentStage.REGISTRATIONS_OPEN && !tournamentData.playerShip) {
       return (
         <Button theme="primary" onClick={RegisterShip}>
           Register ship
@@ -52,7 +52,14 @@ export default function TournamentDetails({ className, tournamentData }: Tournam
       );
     }
 
-    return <div className="font-bold text-2xl">{getStageLabel(tournamentData.stage)}</div>;
+    console.log({ ttournamentData: tournamentData });
+
+    return (
+      <div className="flex flex-col">
+        <div className="font-bold text-2xl">{getStageLabel(tournamentData.stage)}</div>
+        {tournamentData.playerShip && <div className="text-sm">Already registered</div>}
+      </div>
+    );
   }
 }
 
