@@ -18,11 +18,8 @@ export default function Test() {
 
   return (
     <div className="max-w-screen-lg xl:mx-auto mx-8 mt-8">
-      <div className="flex flex-row justify-end mb-8">
-        <div className="flex-grow flex flex-col">
-          <span className="text-4xl font-bold">Starkonquest</span>
-          <span className="text-3xl ml-8">{tournamentData.tournamentName}</span>
-        </div>
+      <div className="flex flex-row items-center justify-end mb-8">
+        <span className="text-3xl flex-grow">{tournamentData.tournamentName}</span>
         <Button theme="primary">Register ship</Button>
       </div>
 
