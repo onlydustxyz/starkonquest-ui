@@ -17,6 +17,7 @@ export default function useTransactionReceipt(transactionHash: BigNumberish | un
     }
 
     (async function () {
+      setWaiting(true);
       try {
         await library.waitForTransaction(transactionHash, 2000);
       } catch (err) {

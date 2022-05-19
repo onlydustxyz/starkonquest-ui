@@ -238,6 +238,35 @@
   {
     "inputs": [
       {
+        "name": "battle_index",
+        "type": "felt"
+      }
+    ],
+    "name": "battle_transaction_hash",
+    "outputs": [
+      {
+        "name": "hash",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tournament_winner",
+    "outputs": [
+      {
+        "name": "winner_ship",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "name": "owner",
         "type": "felt"
       },

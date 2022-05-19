@@ -52,8 +52,6 @@ export default function TournamentDetails({ className, tournamentData }: Tournam
       );
     }
 
-    console.log({ ttournamentData: tournamentData });
-
     return (
       <div className="flex flex-col">
         <div className="font-bold text-2xl">{getStageLabel(tournamentData.stage)}</div>

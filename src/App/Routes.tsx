@@ -5,6 +5,7 @@ const GameScreen = lazy(() => import("src/screens/Game"));
 const TournamentScreen = lazy(() => import("src/screens/Tournament/index"));
 const TournamentRegisterShipScreen = lazy(() => import("src/screens/Tournament/RegisterShip"));
 const TournamentViewScreen = lazy(() => import("src/screens/Tournament/View"));
+const TournamentDetailsScreen = lazy(() => import("src/screens/Tournament/Details"));
 
 export default function AppRoutes() {
   return (
@@ -39,6 +40,14 @@ export default function AppRoutes() {
             element={
               <Suspense fallback={<>...</>}>
                 <TournamentRegisterShipScreen />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/tournament/:tournamentAddress/details"
+            element={
+              <Suspense fallback={<>...</>}>
+                <TournamentDetailsScreen />
               </Suspense>
             }
           />
