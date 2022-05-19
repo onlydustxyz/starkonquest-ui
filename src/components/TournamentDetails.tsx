@@ -1,9 +1,11 @@
 import cn from "classnames";
+import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { TournamentData } from "src/hooks/useTournament";
 import { TournamentStage } from "src/hooks/useTournament/library";
-import { minimizeAddress } from "src/utils/web3";
 
+import Button from "./Button";
 import ContentContainer from "./ContentContainer";
 
 export interface TournamentDetailsProps {
@@ -12,20 +14,23 @@ export interface TournamentDetailsProps {
 }
 
 export default function TournamentDetails({ className, tournamentData }: TournamentDetailsProps) {
+  const navigate = useNavigate();
+
+  const RegisterShip = useCallback(() => {
+    navigate(`/tournament/${tournamentData.tournamentAddress}/register`);
+  }, [tournamentData.tournamentAddress]);
+
   return (
     <ContentContainer className={cn(className, "text-white flex flex-col")}>
+      <div className="flex flex-row items-center justify-end mb-8 h-[72px]">
+        <span className="text-3xl fonbt-bold flex-grow">{tournamentData.tournamentName}</span>
+        {renderStage()}
+      </div>
       <div className="flex flex-row items-center">
-        <div className="flex-grow flex flex-row items-center">
-          <div className="flex flex-col">
-            <span className="text-[32px] leading-[28px] mr-2">{tournamentData.tournamentName}</span>
-            <span className="text-gray-300">({minimizeAddress(tournamentData.tournamentAddress as string)})</span>
-          </div>
-        </div>
         <div className="text-[24px]">
-          {tournamentData.shipCount}/{tournamentData.requiredTotalShipCount}
+          Number of registered ships : {tournamentData.shipCount}/{tournamentData.requiredTotalShipCount}
         </div>
       </div>
-      <div className="mt-2 text-lg font-bold">{renderStage((tournamentData as TournamentData).stage)}</div>
       <div className="flex-grow mt-8">
         <div className="font-bold text-xl">Games details</div>
         <ul>
@@ -37,9 +42,28 @@ export default function TournamentDetails({ className, tournamentData }: Tournam
       <div className="self-end">Reward {tournamentData.rewardTotalAmount?.toString()}</div>
     </ContentContainer>
   );
+
+  function renderStage() {
+    if (tournamentData.stage === TournamentStage.REGISTRATIONS_OPEN && !tournamentData.playerShip) {
+      return (
+        <Button theme="primary" onClick={RegisterShip}>
+          Register ship
+        </Button>
+      );
+    }
+
+    console.log({ ttournamentData: tournamentData });
+
+    return (
+      <div className="flex flex-col">
+        <div className="font-bold text-2xl">{getStageLabel(tournamentData.stage)}</div>
+        {tournamentData.playerShip && <div className="text-sm">Already registered</div>}
+      </div>
+    );
+  }
 }
 
-function renderStage(stage: TournamentData["stage"]) {
+function getStageLabel(stage: TournamentData["stage"]) {
   switch (stage) {
     case TournamentStage.CREATED:
       return "Created";

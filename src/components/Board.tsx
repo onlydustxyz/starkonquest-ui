@@ -1,5 +1,4 @@
-import { CSSProperties, forwardRef, Ref, useMemo } from "react";
-import cn from "classnames";
+import { forwardRef, Ref, useMemo } from "react";
 
 import Dust from "src/components/Dust";
 import Ship from "src/components/Ship";
@@ -14,14 +13,10 @@ export interface BoardProps {
   isGameFinished: boolean;
   dusts: DustData[];
   ships: ShipData[];
-  style?: CSSProperties;
   className?: string;
 }
 
-function Board(
-  { className, dusts, ships, isGameFinished, boardSize, gridSize, style }: BoardProps,
-  ref: Ref<HTMLDivElement>
-) {
+function Board({ className, dusts, ships, isGameFinished, boardSize, gridSize }: BoardProps, ref: Ref<HTMLDivElement>) {
   const boxSize = useMemo(() => {
     return Math.floor(boardSize / gridSize);
   }, [boardSize, gridSize]);
@@ -35,7 +30,7 @@ function Board(
 
   return (
     <div className={className} ref={ref}>
-      <ContentContainer className={cn("bg-space relative p-0")} style={boardStyle} ref={ref}>
+      <ContentContainer className="bg-space relative p-0" style={boardStyle} ref={ref}>
         {renderWinnerBoard()}
         <div className="bg-space-dark-blue bg-opacity-50 rounded-xl shadow-inner shadow-white relative text-white overflow-hidden w-full h-full">
           {dusts.map(dust => {

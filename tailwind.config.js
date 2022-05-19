@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const colors = require("tailwindcss/colors");
 
 const customColor = {
@@ -16,6 +17,7 @@ const customColor = {
 };
 
 module.exports = {
+  important: true,
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   safelist: ["animate-flicker2", "animate-flicker3", "animate-flicker4", "animate-dust-color"],
   theme: {
