@@ -47,10 +47,11 @@ export default function GameProvider({ children, transactionHash }: GameProvider
 
       const decodedEvents = jsonReceipt.events.map(decodeEvent).filter(a => !!a) as GameEvent[];
 
-      if (getFunctionNameFromKey(jsonTrace.function_invocation.internal_calls[0].selector) === "play_game") {
-        const call = jsonTrace.function_invocation.internal_calls[0];
-        setGridSize(decodeToNumber(call.calldata[1]));
-        setMaxTurn(decodeToNumber(call.calldata[2]));
+      const playGameCall = findFunctionCallRecursive(jsonTrace.function_invocation.internal_calls, "play_game");
+
+      if (playGameCall.length > 0) {
+        setGridSize(decodeToNumber(playGameCall[0].calldata[1]));
+        setMaxTurn(decodeToNumber(playGameCall[0].calldata[2]));
       }
 
       setEvents(decodedEvents);
@@ -79,4 +80,43 @@ export default function GameProvider({ children, transactionHash }: GameProvider
       {children}
     </GameContext.Provider>
   );
+}
+
+interface InternalCall {
+  calldata: string[];
+  caller_address: string;
+  code_address: string;
+  events: unknown[];
+  internal_calls: InternalCall[];
+  selector: string;
+}
+
+function findFunctionCallRecursive(
+  internalCalls: InternalCall[],
+  functionName: string,
+  findAll = false
+): InternalCall[] {
+  const foundFunctions = internalCalls.filter(
+    internalCall => getFunctionNameFromKey(internalCall.selector) === functionName
+  );
+
+  if (foundFunctions.length > 0 && !findAll) {
+    return [foundFunctions[0]];
+  }
+
+  const foundRecursiveFunctions = internalCalls.reduce((foundList, internalCall) => {
+    if (!internalCall.internal_calls || internalCall.internal_calls.length === 0) {
+      return foundList;
+    }
+
+    return findFunctionCallRecursive(internalCall.internal_calls, functionName, findAll);
+  }, [] as InternalCall[]);
+
+  const finalFunctions = [...foundFunctions, ...foundRecursiveFunctions];
+
+  if (!findAll) {
+    return [finalFunctions[0]];
+  }
+
+  return finalFunctions;
 }
