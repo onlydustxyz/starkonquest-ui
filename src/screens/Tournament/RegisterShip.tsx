@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
@@ -16,6 +16,8 @@ export default function TournamentRegisterShipScreen() {
     formState: { errors },
   } = useForm();
 
+  const [isWaitingRefresh, setIsWaitingRefresh] = useState(false);
+
   const { tournamentData, refreshTournament } = useOutletContext<{
     tournamentData: TournamentData;
     refreshTournament: () => Promise<void>;
@@ -32,7 +34,11 @@ export default function TournamentRegisterShipScreen() {
 
   useEffect(() => {
     if (transactionReceipt) {
-      refreshTournament();
+      (async function () {
+        setIsWaitingRefresh(true);
+        await refreshTournament();
+        setIsWaitingRefresh(false);
+      })();
     }
   }, [transactionReceipt]);
 
@@ -61,6 +67,8 @@ export default function TournamentRegisterShipScreen() {
       saveTransactionHash(data);
     }
   }, [data]);
+
+  const disableRegistration = isSubmitting || waiting || isWaitingRefresh;
 
   return (
     <div className="max-w-screen-lg xl:mx-auto mx-8 mt-8">
@@ -116,8 +124,8 @@ export default function TournamentRegisterShipScreen() {
                   {...register("shipContractAddress", { required: true })}
                 />
               </div>
-              <Button size="small" type="submit" disabled={!account || isSubmitting}>
-                {isSubmitting ? "Submitting" : "Register"}
+              <Button size="small" type="submit" disabled={!account || disableRegistration}>
+                {disableRegistration ? "Processing" : "Register"}
               </Button>
             </div>
             {errors.shipContractAddress?.type === "required" && (
@@ -128,7 +136,7 @@ export default function TournamentRegisterShipScreen() {
                 A transaction is being sent to register your ship.
               </div>
             )}
-            {waiting && (
+            {(waiting || isWaitingRefresh) && (
               <div className="mt-10 text-lg text-blue-300 text-center">
                 The transaction is being processed to register your ship.
               </div>
