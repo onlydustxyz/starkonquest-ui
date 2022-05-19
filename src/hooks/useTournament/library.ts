@@ -17,7 +17,9 @@ const contractViewFormatter = {
   grid_size: formatNumber,
   max_dust: formatNumber,
   stage: formatStage,
-  player_ship: formatPlayerShip,
+  player_ship: formatOptionalAddress,
+  tournament_winner: formatOptionalAddress,
+  battle_transaction_hash: formatAddress,
 };
 
 export enum TournamentStage {
@@ -62,7 +64,7 @@ function formatStage(result: Unpromise<ReturnType<Contract["call"]>>) {
   return formatNumber(result) as TournamentStage;
 }
 
-function formatPlayerShip(result: Unpromise<ReturnType<Contract["call"]>>) {
+function formatOptionalAddress(result: Unpromise<ReturnType<Contract["call"]>>) {
   const shipAddress = formatAddress(result);
 
   if (shipAddress === "0x0") {
