@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { ReactNode, useEffect, useMemo } from "react";
 import { useElementSize, useWindowSize } from "usehooks-ts";
 import cn from "classnames";
 
@@ -10,11 +10,12 @@ import useGrid from "src/hooks/useGrid";
 
 const BOARD_MIN_SIZE = 260;
 export interface GameProps {
+  renderTitle?: () => ReactNode;
   hideHeader?: boolean;
   className?: string;
 }
 
-export default function Game({ className, hideHeader = false }: GameProps) {
+export default function Game({ className, hideHeader = false, renderTitle }: GameProps) {
   const { width: windowWidth } = useWindowSize();
 
   const [containerRef, { height: containerHeight }] = useElementSize();
@@ -37,10 +38,10 @@ export default function Game({ className, hideHeader = false }: GameProps) {
   }
 
   return (
-    <div className={cn(className, "h-screen flex flex-col items-center justify-center bg-orange-400")}>
+    <div className={cn(className, "flex-grow flex flex-col items-center")}>
       {!hideHeader && (
         <Header
-          className="my-4"
+          className="mb-4"
           start={play}
           pause={pause}
           replay={resetAndPlay}
@@ -49,6 +50,7 @@ export default function Game({ className, hideHeader = false }: GameProps) {
           isGameFinished={isGameFinished}
           currentTurn={currentTurn}
           maxTurn={maxTurn}
+          renderTitle={renderTitle}
         />
       )}
       <Board

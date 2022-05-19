@@ -2,7 +2,7 @@ import cn from "classnames";
 
 import Button from "./Button";
 import useGameState from "src/hooks/useGameState";
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { ShipData } from "src/hooks/useGrid";
 import shipImages from "src/assets/img/spaceships";
 
@@ -16,6 +16,7 @@ export interface HeaderProps {
   className?: string;
   currentTurn: number;
   maxTurn: number | undefined;
+  renderTitle?: () => ReactNode;
 
   style?: CSSProperties;
 }
@@ -31,11 +32,18 @@ export default function Header({
   isGameFinished,
   currentTurn,
   maxTurn,
+  renderTitle,
 }: HeaderProps) {
   const { gameStateReady } = useGameState();
 
   return (
-    <div style={style} className={cn("px-4 bg-opacity-60 rounded-lg text-snow flex flex-row", className)}>
+    <div
+      style={style}
+      className={cn(
+        "w-full max-w-screen-lg lg:mx-auto mx-8 bg-opacity-60 rounded-lg text-snow flex flex-col mt-8",
+        className
+      )}
+    >
       {gameStateReady ? renderGameData() : renderGameLoading()}
     </div>
   );
@@ -47,17 +55,17 @@ export default function Header({
   function renderGameData() {
     return (
       <>
-        <div className="flex-grow">
-          <h1 className="text-[32px] font-bold whitespace-nowrap">
-            Starkonquest <sub className="text-[20px]">by OnlyDust</sub>
-          </h1>
-          <div className="flex flex-row mt-6 ml-8">{ships.map(renderShip)}</div>
-        </div>
-        <div className="self-center flex flex-col items-end">
-          <div className="mb-4">
-            Current turn : {currentTurn} / {maxTurn}
+        {renderTitle && <div className="mb-8">{renderTitle()}</div>}
+        <div className="flex flex-row h-[92px]">
+          <div className="flex-grow mt-4">
+            <div className="flex flex-row ml-8">{ships.map(renderShip)}</div>
+            <div className="mt-2 ml-8 mb-4">
+              Current turn : {currentTurn} / {maxTurn}
+            </div>
           </div>
-          <div>{renderControls()}</div>
+          <div className="self-center flex flex-col items-end">
+            <div>{renderControls()}</div>
+          </div>
         </div>
       </>
     );

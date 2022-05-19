@@ -71,7 +71,7 @@ export default function TournamentRegisterShipScreen() {
   const disableRegistration = isSubmitting || waiting || isWaitingRefresh;
 
   return (
-    <div className="max-w-screen-lg xl:mx-auto mx-8 mt-8">
+    <div className="max-w-screen-lg lg:mx-auto mx-8 mt-8">
       <div className="flex flex-row items-center justify-end mb-8">
         <Link className="flex-grow text-3xl" to={`/tournament/${tournamentData.tournamentAddress}`}>
           <span className="mr-4">&lt;</span>
@@ -97,7 +97,7 @@ export default function TournamentRegisterShipScreen() {
 
   function renderAlreadyRegistered() {
     return (
-      <ContentContainer theme="primary" className="mb-8">
+      <ContentContainer theme="primary" className="mb-8 py-8">
         <div className="text-center text-red-200 text-4xl">You are registered for the tournament</div>
       </ContentContainer>
     );

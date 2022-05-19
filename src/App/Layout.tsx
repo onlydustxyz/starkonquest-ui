@@ -11,13 +11,13 @@ export default function Layout({ children }: LayoutProps) {
   const { account } = useStarknet();
 
   return (
-    <>
-      <div className="max-w-screen-lg xl:mx-auto flex flex-row items-center h-[124px]">
+    <div className="h-screen flex flex-col">
+      <div className="max-w-screen-lg w-full mx-auto flex flex-row items-center h-[124px]">
         <div className="text-4xl font-bold flex-grow">Starkonquest</div>
         <div className="">{renderAccount()}</div>
       </div>
       {children}
-    </>
+    </div>
   );
 
   function renderAccount() {
