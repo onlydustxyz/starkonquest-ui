@@ -1,6 +1,6 @@
 import { useStarknet } from "@starknet-react/core";
 import BN from "bn.js";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import useTournamentContract from "src/hooks/useTournamentContract";
 import { callContractView, TournamentStage } from "./library";
@@ -26,6 +26,22 @@ export default function useTournament(tournamentAddress: string) {
 
   const [data, setData] = useState<TournamentData>();
   const [loading, setLoading] = useState(true);
+
+  const refresh = useCallback(async () => {
+    const [playerShip, shipCount, stage] = await Promise.all([
+      account ? callContractView(tournamentContract, "player_ship", [account]) : Promise.resolve(undefined),
+      callContractView(tournamentContract, "ship_count"),
+      callContractView(tournamentContract, "stage"),
+    ]);
+
+    setData(data => {
+      if (!data) {
+        return undefined;
+      }
+
+      return { ...data, playerShip, shipCount, stage };
+    });
+  }, []);
 
   useEffect(() => {
     (async function () {
@@ -55,8 +71,6 @@ export default function useTournament(tournamentAddress: string) {
         account ? callContractView(tournamentContract, "player_ship", [account]) : Promise.resolve(undefined),
       ]);
 
-      console.log(playerShip);
-
       setData({
         tournamentId,
         tournamentName,
@@ -78,5 +92,6 @@ export default function useTournament(tournamentAddress: string) {
   return {
     data,
     loading,
+    refresh,
   };
 }
