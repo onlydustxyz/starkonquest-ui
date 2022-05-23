@@ -1,3 +1,3 @@
 .ship {
-  transition: transform 500ms, top 500ms 500ms, left 500ms 500ms;
+  transition: transform 400ms 0ms, top 400ms 400ms, left 400ms 400ms;
 }

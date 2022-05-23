@@ -56,10 +56,7 @@ export default function Ship({ boxSize, shipData, x, y }: ShipProps) {
 
   return (
     <HoverCard.Root>
-      <div
-        style={containerStyle}
-        className={cn("absolute flex items-center justify-center transition-all duration-700 ease-in-out", styles.ship)}
-      >
+      <div style={containerStyle} className={cn("absolute flex items-center justify-center ease-in-out", styles.ship)}>
         <HoverCard.Trigger>
           <img src={shipImage} width={`${imageSize}px`} height={`${imageSize}px`} />
         </HoverCard.Trigger>

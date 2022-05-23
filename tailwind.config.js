@@ -33,6 +33,15 @@ module.exports = {
         flicker4: "flicker 4s linear infinite",
         "dust-color": "dust-color 4s linear infinite",
       },
+
+      transitionDelay: {
+        0: "0ms",
+        100: "100ms",
+        400: "400ms",
+        600: "600ms",
+        1000: "1000ms",
+        2000: "2000ms",
+      },
       keyframes: {
         flicker: {
           "10%": { opacity: 1 },
