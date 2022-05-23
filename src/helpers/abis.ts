@@ -1,4 +1,4 @@
-import spaceAbi from "src/abis/battle.json";
+import battleAbi from "src/abis/battle.json";
 import {
   GameEvent,
   GameEventDustDestroyed,
@@ -35,7 +35,7 @@ const eventNameByKey = new Map<string, string>();
 const functionNameByKey = new Map<string, string>();
 
 function loadAbi() {
-  spaceAbi.forEach(abiItem => {
+  battleAbi.forEach(abiItem => {
     if (abiItem.type === "event" && abiItem.name) {
       eventNameByKey.set(getSelectorFromName(abiItem.name), abiItem.name);
     }
