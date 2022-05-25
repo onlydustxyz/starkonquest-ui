@@ -71,7 +71,7 @@ export default function TournamentRegisterShipScreen() {
   const disableRegistration = isSubmitting || waiting || isWaitingRefresh;
 
   return (
-    <div className="max-w-screen-lg lg:mx-auto mx-8 mt-8">
+    <div className="max-w-screen-lg w-full lg:mx-auto mx-8 mt-8">
       <div className="flex flex-row items-center justify-end mb-8">
         <Link className="flex-grow text-3xl" to={`/tournament/${tournamentData.tournamentAddress}`}>
           <span className="mr-4">&lt;</span>
@@ -83,12 +83,16 @@ export default function TournamentRegisterShipScreen() {
       </div>
       {!tournamentData.playerShip && (
         <ContentContainer theme="secondary" className="mb-8">
-          Tuto comment jouer et participer + lien vers le repo + readme
-        </ContentContainer>
-      )}
-      {!tournamentData.playerShip && (
-        <ContentContainer theme="secondary" className="mb-8">
-          Les étapes pour register son ship
+          <p className="mb-6">Have you deployed your ship on Starknet?</p>
+          <p className="my-6">
+            If yes, you are good to go! Simply provide us with the address of your ship and we will check that you have
+            a boarding pass (obtainable in our{" "}
+            <a href="https://discord.gg/wYeu3ytk" target="_blank" className="underline">
+              discord
+            </a>
+            ) and that your ship doesn't break appart once the game is started.
+          </p>
+          <p className="mt-6">Stay on this page and we'll let you know how things go.</p>
         </ContentContainer>
       )}
       {tournamentData.playerShip ? renderAlreadyRegistered() : renderForm()}

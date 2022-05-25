@@ -11,7 +11,7 @@ export default function TournamentDetailsScreen() {
   }>();
 
   return (
-    <div className="max-w-screen-lg lg:mx-auto mx-8 mt-8">
+    <div className="max-w-screen-lg w-full lg:mx-auto mx-8 mt-8">
       <div className="mb-8">
         <Link className="flex-grow text-3xl" to={`/tournament/${tournamentData.tournamentAddress}`}>
           <span className="mr-4">&lt;</span>
