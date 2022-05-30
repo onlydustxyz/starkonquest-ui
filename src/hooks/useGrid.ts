@@ -34,7 +34,7 @@ const availableDustSize: DustData["size"][] = ["tiny", "regular", "big"];
 const sizeByDustId = new Map<string, DustData["size"]>();
 const indexByShipId = new Map<string, number>();
 
-const interval = 750;
+const interval = 1000;
 
 export default function useGrid(events: GameEvent[]) {
   const [isGameFinished, setIsGameFinished] = useState(false);
@@ -92,16 +92,14 @@ export default function useGrid(events: GameEvent[]) {
 
   const dustDestroyed = useCallback(
     (gameEvent: GameEventDustDestroyed) => {
-      setTimeout(() => {
-        const dustId = getDustIdByPosition(gameEvent.position);
-        deleteDustPosition(gameEvent.position);
+      const dustId = getDustIdByPosition(gameEvent.position);
+      deleteDustPosition(gameEvent.position);
 
-        setDusts(dusts => {
-          return dusts.filter(dust => {
-            return dust.dustId !== dustId;
-          });
+      setDusts(dusts => {
+        return dusts.filter(dust => {
+          return dust.dustId !== dustId;
         });
-      }, interval);
+      });
     },
     [setDusts]
   );
@@ -136,25 +134,25 @@ export default function useGrid(events: GameEvent[]) {
   }, []);
 
   const scoreChanged = useCallback((gameEvent: GameEventScoreChanged) => {
-    setTimeout(() => {
-      setShips(ships => {
-        return ships.map(ship => {
-          if (ship.shipId !== gameEvent.shipId) {
-            return ship;
-          }
+    setShips(ships => {
+      return ships.map(ship => {
+        if (ship.shipId !== gameEvent.shipId) {
+          return ship;
+        }
 
-          return {
-            ...ship,
-            score: gameEvent.score,
-          };
-        });
+        return {
+          ...ship,
+          score: gameEvent.score,
+        };
       });
-    }, interval);
+    });
   }, []);
 
   const gameFinished = useCallback(() => {
-    setIsGameFinished(true);
-    setIsPlaying(false);
+    setTimeout(() => {
+      setIsGameFinished(true);
+      setIsPlaying(false);
+    }, interval);
   }, []);
 
   const newTurn = useCallback((gameEvent: GameEventNewTurn) => {
@@ -170,6 +168,10 @@ export default function useGrid(events: GameEvent[]) {
       }
 
       const newEvent = events[performedEventIndex.current];
+
+      if (!newEvent) {
+        return;
+      }
 
       switch (newEvent.key) {
         case "dust_spawned":
@@ -204,11 +206,7 @@ export default function useGrid(events: GameEvent[]) {
         const newEventKeyPrefix = newEvent.key.split("_")[0];
         const nextEventKeyPrefix = nextEvent.key.split("_")[0];
 
-        if (
-          newEventKeyPrefix === nextEventKeyPrefix ||
-          nextEventKeyPrefix === "score" ||
-          nextEvent.key === "dust_destroyed"
-        ) {
+        if (!["new_turn", "game_finished"].includes(newEvent.key)) {
           internalPerform();
         }
       }

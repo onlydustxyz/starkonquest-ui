@@ -41,7 +41,7 @@ export default function Dust({ boxSize, x, y, size }: DustProps) {
     <HoverCard.Root>
       <div
         style={containerStyle}
-        className={cn("absolute flex items-center justify-center  transition-all duration-700 ease-in-out")}
+        className={cn("absolute flex items-center justify-center transition-all delay-400 duration-700 ease-in-out")}
       >
         <HoverCard.Trigger asChild>
           <div className="w-full h-full flex items-center justify-center">
