@@ -1,6 +1,4 @@
 import cn from "classnames";
-import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { TournamentData } from "src/hooks/useTournament";
 import { TournamentStage } from "src/hooks/useTournament/library";
@@ -14,12 +12,6 @@ export interface TournamentDetailsProps {
 }
 
 export default function TournamentDetails({ className, tournamentData }: TournamentDetailsProps) {
-  const navigate = useNavigate();
-
-  const RegisterShip = useCallback(() => {
-    navigate(`/tournament/${tournamentData.tournamentAddress}/register`);
-  }, [tournamentData.tournamentAddress]);
-
   return (
     <ContentContainer className={cn(className, "text-white flex flex-col")}>
       <div className="flex flex-row items-center justify-end mb-8 h-[72px]">
@@ -27,13 +19,13 @@ export default function TournamentDetails({ className, tournamentData }: Tournam
         {renderStage()}
       </div>
       <div className="flex flex-row items-center">
-        <div className="text-[24px]">
-          Number of registered ships : {tournamentData.shipCount}/{tournamentData.requiredTotalShipCount}
-        </div>
+        <div className="text-[22px] font-bold">Current number of ships: {tournamentData.shipCount}</div>
       </div>
       <div className="flex-grow mt-8">
-        <div className="font-bold text-xl">Games details</div>
-        <ul>
+        <div className="font-bold text-xl mb-2">Games details</div>
+        <p>During a tournament, all games follow the same rules and are repeated until only one ship remains.</p>
+        <span>For this tournament, games rules are as follow:</span>
+        <ul className="mt-4">
           <li>Grid size : {tournamentData.gridSize}</li>
           <li>Maximum Dust : {tournamentData.maxDust}</li>
           <li>Ship per battle : {tournamentData.shipCountPerBattle}</li>
@@ -46,7 +38,7 @@ export default function TournamentDetails({ className, tournamentData }: Tournam
   function renderStage() {
     if (tournamentData.stage === TournamentStage.REGISTRATIONS_OPEN && !tournamentData.playerShip) {
       return (
-        <Button theme="primary" onClick={RegisterShip}>
+        <Button theme="primary" href={`/tournament/${tournamentData.tournamentAddress}/register`}>
           Register ship
         </Button>
       );

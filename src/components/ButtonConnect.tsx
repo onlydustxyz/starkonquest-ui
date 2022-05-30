@@ -26,5 +26,9 @@ export default function ButtonConnect() {
     return <Button disabled>Loading</Button>;
   }
 
-  return <Button onClick={onConnect}>Connect wallet</Button>;
+  return (
+    <Button theme="secondary" onClick={onConnect}>
+      Connect wallet
+    </Button>
+  );
 }
